@@ -30,12 +30,20 @@ UNIX is an operating system that was developed in the 1960s and it has been the 
 |`wc` | word count | `wc -l file ` (count lines inside of a file)|
 |`grep` | Pattern matching | `grep patern file` (get lines that match the patern)|
 | `cut` | extract columns from files | `cut -f 2 file` (extract second column)
-|`sort` | sort file by column |`sort -nr -k 2 file` (sort file by second column) | 
+|`sort` | sort file by column |`sort -nr -k 2 file` (sort file by second column) |
+|`wget` | download file |`wget -r file_url -O local_file` (sort file by second column) | 
+|`gzip` | download file |`wget -r file_url -O local_file` (sort file by second column) | 
 
+During the day to day work as a bioinformatician, the terminal will be your best friend. In this section, we are going to review one of the most used terminal commands by doing some practical exercises. 
 
 **Exercise 1.0.1**
+A.- Use `ls` to list the files that are inside the course directory.
+B.- From the commands listed on the table above, use the right command to enter the Genome folder and use `ls` again to list the files inside the folder.
+C.- Find command to print the first lines of `dm6.fa`
+D.- Use `less` to display the content of `dm6.fa`. What is the name of this format? What does each sequence represent? (hint: use `q` to exit)
+E.- Create a new directory named `Older` under the Genome directory (hint: look for the appropriate command on the table above)
 
-On the course directory, create a folder named `test_folder` and copy the smallest file inside `FASTQ/` folder. Then change the name of the folder that you just create to `to_delete` and finally remove this folder. 
+
 
 
 ## 1.2 Efficient use of the terminal 
@@ -45,7 +53,7 @@ To accelerate our interaction with the terminal, we can use the TAB key:
 
 ![](Images/TAB.png) 
 
-For instance, if you are at course folder and you write `ls Gene_` and then press TAB key once, it will complete the command to `ls Gene_annotation`. But if you just write `ls G` and press TAB two times, it will show you the two options (Gene_annotation and Genome).
+For example, if you are at course folder and you write `ls Gene_` and then press TAB key once, it will complete the command to `ls Gene_annotation`. But if you just write `ls G` and press TAB two times, it will show you the two options (Gene_annotation and Genome).
 
 Another powerful thing is to pipe (`|`) the output of one command into and another command. For example you can do:
 
@@ -56,6 +64,20 @@ To count all the FASTQ files that are stored inside of `FASTQ/` folder.
 Finally, if you want to know more, every command has its own options, you can see the entire description of a command using `man`. For instance, use man to know more about `head` typing on the command line:
 
 `man head`
+
+Different data types are stored using different file formats. Fasta files a one of the most widely used formats to store sequences. In the following excersice we are going to use some terminal skills to get an older version of D. melanogaster genome and compare it with the newest version. 
+
+**Exercise 1.0.2**
+
+A.- Enter the newly created directory and use `wget` to download a file from the following URL:
+http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
+Check the manual pages of wget by inserting `man wget` and find an option to redirect the downloading to a file named `dm3.fa.gz`
+B.- The obtained file `dm3.fa.gz` is a compressed file, therefore it cannot be directly oppened using `less`.  To print the first lines of this file we can use a combination of two commands; `zcat` and `head`.  Use `zcat dm3.fa.gz | head` to print the fist 10 lines. Notice the pipe `|` which here is used to couple these two commands. Now pipe `zcat`with `wc -l` to count the total number of lines inside `dm3.fa.gz`.
+C.- To uncompress and compress `.gz` files we can use gzip. Explore the man pages of it (`man gzip`) and find the right option to uncompress the file. Then use `wc -l` to check if the number of lines is maintained. 
+
+
+
+
 
 **Exercise 1.2.1**
 
