@@ -83,5 +83,5 @@ rule download_sample:
  
 rule download_all:
     input:
-        "Genome/dm6.fa",
+        "Genome/" + config["assembly"] + ".fa",
         expand("FASTQ/{sample}.fastq.gz", sample=SAMPLES)
