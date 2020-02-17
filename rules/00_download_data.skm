@@ -117,8 +117,16 @@ elif str2bool(config["paired_end"])==True:
         shell:
             "bash {input} 2> {log}"
 
+if str2bool(config["paired_end"])==False:
  
-rule download_all:
-    input:
-        "Genome/" + config["assembly"] + ".fa",
-        expand("FASTQ/{sample}.fastq.gz", sample=SAMPLES)
+  rule download_all:
+      input:
+          "Genome/" + config["assembly"] + ".fa",
+          expand("FASTQ/{sample}.fastq.gz", sample=SAMPLES)
+
+elif str2bool(config["paired_end"])==True:
+ 
+  rule download_all:
+      input:
+          "Genome/" + config["assembly"] + ".fa",
+          expand("FASTQ/{sample}_{rd}.fastq.gz", sample=SAMPLES, rd=[1,2])
