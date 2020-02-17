@@ -2,4 +2,5 @@
 
 assembly : "mm10"
 paired_end : True
+accession_list : './SRR_Acc_List.txt'
 whippet_bin_folder : /home/participant/miniconda3/envs/julia_0.6.1/share/julia/site/v0.6/Whippet/bin
