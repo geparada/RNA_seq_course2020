@@ -1,4 +1,4 @@
-configfile : "config.yaml"
+
 
 rule whippet_index:
     input:
