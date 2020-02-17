@@ -72,7 +72,9 @@ rule download_sample:
     output:
         "FASTQ/{sample}.fastq.gz"
     conda:
-        "../envs/download.yaml"
+        "../envs/download.yaml"        
+    resources:
+        get_data = 1         
     log:
         "logs/download.{sample}.log"   
     shell:
