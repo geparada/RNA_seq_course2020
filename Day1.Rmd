@@ -41,7 +41,7 @@ A.- Use `ls` to list the files that are inside the course directory.
 B.- From the commands listed on the table above, use the right command to enter the Genome folder and use `ls` again to list the files inside the folder.
 C.- Find command to print the first lines of `dm6.fa`
 D.- Use `less` to display the content of `dm6.fa`. What is the name of this format? What does each sequence represent? (hint: use `q` to exit)
-E.- Create a new directory named `Older` under the Genome directory (hint: look for the appropriate command on the table above)
+
 
 
 
@@ -67,21 +67,10 @@ Finally, if you want to know more, every command has its own options, you can se
 
 Different data types are stored using different file formats. Fasta files a one of the most widely used formats to store sequences. In the following excersice we are going to use some terminal skills to get an older version of D. melanogaster genome and compare it with the newest version. 
 
-**Exercise 1.0.2**
-
-A.- Enter the newly created directory and use `wget` to download a file from the following URL:
-http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
-Check the manual pages of wget by inserting `man wget` and find an option to redirect the downloading to a file named `dm3.fa.gz`
-B.- The obtained file `dm3.fa.gz` is a compressed file, therefore it cannot be directly oppened using `less`.  To print the first lines of this file we can use a combination of two commands; `zcat` and `head`.  Use `zcat dm3.fa.gz | head` to print the fist 10 lines. Notice the pipe `|` which here is used to couple these two commands. Now pipe `zcat`with `wc -l` to count the total number of lines inside `dm3.fa.gz`.
-C.- To uncompress and compress `.gz` files we can use gzip. Explore the man pages of it (`man gzip`) and find the right option to uncompress the file. Then use `wc -l` to check if the number of lines is maintained. 
-
-
-
-
 
 **Exercise 1.2.1**
 
-Read the manual of `head` command. Then use it to extract the first 100 lines of `Gene_annotation/dm6.Ensembl.genes.gtf` and count all the lines that have `CDS` in the third column. 
+Read the manual of `head` command. Then use it to extract the first 100 lines of `Gene_annotation/dm6.Ensembl.genes.gtf` and count all the lines that have `CDS` in the third column. (hint: pipe head, grep and wc -l)
 
 # 2. Input data format
 
@@ -94,6 +83,18 @@ In order to quantify mRNA by RNA-seq analysis, different files are required whic
 FASTA files contain nucleotide or amino acid sequence information. The data is composed of identifiers, which starts with `>` and nucleotide o amino acid sequences. Hundred of thousands of genomes coming from different species are available in public repositories as FASTA files. It is important to notice that a given species can have different genomic assemblies. For instance, a popular assembly human genome assembly is `hg19` that was published in February 2009, and as a huge amount of data is available for that assembly some researchers keep doing their analyses with that version. But other recent analyses have started to use `hg38` instead, which was published in December 2013 and represent a more curated version of the human genome.
 
 For today's practice, we are going to work with a smaller genome. We already have downloaded for you the `dm6` assembly of D. melanogaster's genome, an invertebrate organism widely used as a model organism for genetic and behavioral studies. The genome file is at course material folder at `Genome/dm6.fa`. 
+
+**Exercise 2.1.1**
+
+Genome assemblyies have different versions. During this exercise we will compare the newest assembly of Dm melagogaster's genome (`dm6`) with an older version (`dm3`)
+
+A.- Create a new directory named `Older` under the Genome directory (hint: look for the appropriate command on the table above)
+B.- Enter the newly created directory and use `wget` to download a file from the following URL:
+http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
+Check the manual pages of wget by inserting `man wget` and find an option to redirect the downloading to a file named `dm3.fa.gz`
+C.- The obtained file `dm3.fa.gz` is a compressed file, therefore it cannot be directly oppened using `less`.  To print the first lines of this file we can use a combination of two commands; `zcat` and `head`.  Use `zcat dm3.fa.gz | head` to print the fist 10 lines. Notice the pipe `|` which here is used to couple these two commands. Now pipe `zcat`with `wc -l` to count the total number of lines inside `dm3.fa.gz`.
+D.- To uncompress and compress `.gz` files we can use gzip. Explore the man pages of it (`man gzip`) and find the right option to uncompress the file. Then use `wc -l` to check if the number of lines is maintained. 
+
 
 **Exercise 2.1.1**
 
