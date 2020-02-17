@@ -29,9 +29,9 @@ except FileExistsError:
 
 SAMPLES = set([])
 
-if os.path.isfile(config[accession_list]):
+if os.path.isfile(config["accession_list"]):
 
-    with open(config[accession_list]) as file :
+    with open(config["accession_list"]) as file :
 
         reader = csv.reader(file, delimiter="\t")
         for row in reader:
