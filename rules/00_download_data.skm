@@ -20,7 +20,7 @@ except FileExistsError:
 
 SAMPLES = set([])
 
-if os.path.isfile('./NCBI_accession_list.txt'):
+if os.path.isfile('./SRR_Acc_List.txt'):
 
     with open("NCBI_accession_list.txt") as file :
 
