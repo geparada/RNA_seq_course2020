@@ -1,3 +1,4 @@
+configfile : "config.yaml"
 include: "rules/00_download_data.skm"
 
 #################################### Mapping and Quantification ################################
