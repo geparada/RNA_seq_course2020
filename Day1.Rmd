@@ -31,8 +31,8 @@ UNIX is an operating system that was developed in the 1960s and it has been the 
 |`grep` | Pattern matching | `grep patern file` (get lines that match the patern)|
 | `cut` | extract columns from files | `cut -f 2 file` (extract second column)
 |`sort` | sort file by column |`sort -nr -k 2 file` (sort file by second column) |
-|`wget` | download file |`wget -r file_url -O local_file` (sort file by second column) | 
-|`gzip` | download file |`wget -r file_url -O local_file` (sort file by second column) | 
+|`wget` | download file |`wget -r file_url -O local_file` (download a file on a local directory) | 
+|`gzip` | compress / uncompress files |`wget -d file.gz` (uncompress a .gz file) | 
 
 During the day to day work as a bioinformatician, the terminal will be your best friend. In this section, we are going to review one of the most used terminal commands by doing some practical exercises. 
 
