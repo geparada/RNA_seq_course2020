@@ -1,6 +1,6 @@
 #This files store variables that can be read by snakemake
 
-assembly : "mm10"
-paired_end : True
-accession_list : './SRR_Acc_List.txt'
+assembly : "dm6"
+paired_end : False
+accession_list : './NCBI_accession_list.txt'
 whippet_bin_folder : /home/participant/miniconda3/envs/julia_0.6.1/share/julia/site/v0.6/Whippet/bin
