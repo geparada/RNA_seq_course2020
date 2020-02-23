@@ -70,6 +70,13 @@ if os.path.isfile('download/genome.download.sh')==False:
         download_file.write("wget http://hgdownload.soe.ucsc.edu/goldenPath/" + config["assembly"] + "/bigZips/" + config["assembly"] + ".fa.gz -O Genome/" + config["assembly"] + ".fa.gz"  + "\n")
         download_file.write("gzip -d Genome/" + config["assembly"] + ".fa.gz")
 
+if os.path.isfile('download/transcriptome.download.sh')==False:
+    
+    with open("download/transcriptome.download.sh", "w") as download_file :
+        
+        download_file.write("#!/bin/bash" + "\n")
+        download_file.write("wget ftp://hgdownload.soe.ucsc.edu/goldenPath/" + config["assembly"] + "/bigZips/genes/" + config["assembly"] + ".ensGene.gtf.gz -O Gene_annotation/" + config["assembly"] + ".ensGene.gtf.gz"  + "\n")
+        download_file.write("gzip -d Gene_annotation/" + config["assembly"] + ".ensGene.gtf.gz")
 
         
 rule download_genome:
@@ -83,6 +90,24 @@ rule download_genome:
         "logs/download_genome.log",
     shell:
         "bash {input} 2> {log}"
+
+
+if str2bool(config["paired_end"])==False:
+
+    rule download_genome:
+        input:
+            "download/transcriptome.download.sh"
+        output:
+            "Gene_annotation/" + config["assembly"] + ".ensGene.gtf.gz"
+        conda:
+            "../envs/download.yaml"
+        log:
+            "logs/download_transcriptome.log",
+        shell:
+            "bash {input} 2> {log}"
+
+        
+        
 
 if str2bool(config["paired_end"])==False:
 
