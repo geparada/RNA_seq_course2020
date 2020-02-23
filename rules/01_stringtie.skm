@@ -1,7 +1,7 @@
 rule StringTie_Assemble:
   input:
     bam = "hisat2/{sample}.sorted.bam",
-    ref_gtf = "Gene_annotation/dm6.Ensembl.genes.gtf"
+    ref_gtf = "Gene_annotation/dm6.ensGene.gtf"
   output:
     "StringTie/{sample}.assemble.gtf"
   conda:
@@ -24,7 +24,7 @@ rule StringTie_Merge:
 rule StringTie_gffcompare:
   input:
     merged_gtf = "StringTie/merged.assemble.gtf",
-    ref_gtf = "Gene_annotation/dm6.Ensembl.genes.gtf",
+    ref_gtf = "Gene_annotation/dm6.ensGene.gtf",
     genome = "Genome/dm6.fa"
   params:
     output_prefix = "gffcompare/gffcompare"

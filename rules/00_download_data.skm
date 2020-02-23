@@ -91,19 +91,21 @@ rule download_genome:
         "bash {input} 2> {log}"
 
 
-if str2bool(config["paired_end"])==False:
+if str2bool(config["download_transcriptome"])==True:
 
-    rule download_genome:
+    rule download_transcriptome:
         input:
             "download/transcriptome.download.sh"
         output:
-            "Gene_annotation/" + config["assembly"] + ".ensGene.gtf.gz"
+            "Gene_annotation/" + config["assembly"] + ".ensGene.gtf"
         conda:
             "../envs/download.yaml"
         log:
             "logs/download_transcriptome.log",
         shell:
             "bash {input} 2> {log}"
+
+
 
         
         
@@ -142,16 +144,41 @@ elif str2bool(config["paired_end"])==True:
         shell:
             "bash {input} 2> {log}"
 
-if str2bool(config["paired_end"])==False:
- 
-  rule download_all:
-      input:
-          "Genome/" + config["assembly"] + ".fa",
-          expand("FASTQ/{sample}.fastq.gz", sample=SAMPLES)
 
-elif str2bool(config["paired_end"])==True:
- 
-  rule download_all:
-      input:
-          "Genome/" + config["assembly"] + ".fa",
-          expand("FASTQ/{sample}_{rd}.fastq.gz", sample=SAMPLES, rd=[1,2])
+###### Target decision tree ####
+
+
+if str2bool(config["download_transcriptome"])==True:
+
+    if str2bool(config["paired_end"])==False:
+    
+        rule download_all:
+            input:
+                "Gene_annotation/" + config["assembly"] + ".ensGene.gtf",
+                "Genome/" + config["assembly"] + ".fa",
+                expand("FASTQ/{sample}.fastq.gz", sample=SAMPLES)
+
+    else:
+    
+        rule download_all:
+            input:
+                "Gene_annotation/" + config["assembly"] + ".ensGene.gtf",
+                "Genome/" + config["assembly"] + ".fa",
+                expand("FASTQ/{sample}_{rd}.fastq.gz", sample=SAMPLES, rd=[1,2])
+          
+
+else:
+
+    if str2bool(config["paired_end"])==False:
+    
+        rule download_all:
+            input:
+                "Genome/" + config["assembly"] + ".fa",
+                expand("FASTQ/{sample}.fastq.gz", sample=SAMPLES)
+
+    else:
+    
+        rule download_all:
+            input:
+                "Genome/" + config["assembly"] + ".fa",
+                expand("FASTQ/{sample}_{rd}.fastq.gz", sample=SAMPLES, rd=[1,2])
