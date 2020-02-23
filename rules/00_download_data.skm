@@ -10,7 +10,6 @@ def str2bool(v):
   else:
     return v.lower() in ("yes", "true", "t", "1")
 
-
 try:
     os.mkdir("FASTQ")
 except FileExistsError:
