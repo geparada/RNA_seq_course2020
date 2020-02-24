@@ -1,0 +1,87 @@
+
+# 4. Mapping reads to the genome and getting raw counts
+
+After we have a diagnosis of the data quality, we can start to analyse the data. Usually, the first step into the analysis requires mapping the RNA-seq reads to the genome. There are numerous tools to do perform short read alignment and the choice of it should be carefully made according to the analysis goals and requirements. Hisat2 is a very fastq tool that has been shown to have a good performance on published benchmarks. 
+
+
+## 4.1 Indexing the genome for Hisat2
+
+
+To start mapping RNA-seq reads to the genome, we need to index the genome. The command to do this is `hisat2-build`. 
+
+`hisat2-build --help`
+
+**Exercise 4.1.1.**
+
+
+Go to `Course_Materials/00_Reproducible_RNA-Seq_Processing` directory using `cd` (This is going to be our base directory to solve all the following exercises). Do `ls` to list the directories and create a new folder called `Index` inside `Genome` folder. Then run the following command: 
+
+`hisat2-build -p 7 Genome/dm6.fa Genome/Index/dm6`
+
+This command will use the genome (located at `Genome/dm6.fa`) and it will generate the index files on `Genome/Index/`. All the files will start with `dm6` prefix. Take a look at `hisat2-build` help, 
+
+A) Why do we use `-p 7` and what is the maximun=m value we should use on these machines?
+B) How many files are created on this process? 
+
+
+## 4.2 Hisat2
+
+
+To map the reads to the genome we need to run hisat2. Take a quick look to hisat2's description
+
+`hisat2 --help`
+
+**Exercise 4.2.1**
+
+Run hisat2 for the smallest file, located at FASTQ folder using 7 proccesors. Save the results inside a folder named `hisat2` (create it before using `mkdir`) and save the results using the right extension (`.sam`).
+hint: use `hisat --help` and look for -p -U -x flags and tt the end of the command use `>` to save the resuls to a file. 
+
+
+## 4.3 Samtools
+
+The output of hisat2 is a SAM file, which is a plain text file that has the alignment information. As they tend to be very large, is not a good idea to store them forever. BAM files are the binary form of SAM files, which means their information is much more compressed, which make them easier to store them, but also enable quicker processing of their data. We can transform from SAM to BAM following this general formula:
+
+`samtools view -b sample.sam > sample.bam`
+
+Where `sample` is just a generic name to reffer to our samples. 
+
+**Exercise 4.3.1**
+
+Get a BAM file from the SAM file you just generated. 
+
+
+## 4.4 Visualise BAM files
+
+BAMs can be used for different downstream analyses. But most of them require the BAM files to be `sorted`. When a BAM file is sorted, the alignments are ordered by the position they map to. BAM files can be sorted using `samtools sort` and following this formula:
+
+`samtools sort  sample.bam -o sample.sorted.bam`
+
+To visualise a BAM's alignment, we need to index it first. Which can be made with `samtools index`:
+
+`samtools index sample.sorted.bam`
+
+**Exercise 4.4.1**
+
+A) Sort and Index your BAM file.
+B) Open IGV, load D. melanogaster's genome (dm6) and load the sorted bamfile.
+
+**IGV help**
+
+*Load the reference genome*. On the top menu bar find the genomes dropdown (top-left) and  then find  `D. melanogaster` assembly dm6. You might need to click on ‘More...’ to see a list of available genomes.
+
+*Load the BAM file*. On the top menu bar go to ‘File –> Load from File...’ and select the sorted BAM file you have created on the previous step.
+
+Zoom in into a particular gene to see the read alignments. 
+
+
+## 4.5 FeatureCounts
+
+To count the number of reads we will use FeatureCounts, which uses a gene annotation file (GTF) to process the genomic intervals of every gene and count all the reads that map to the exonic regions. 
+
+**Exercise 4.2.2**
+
+Run featureCounts providing the transcript annotation and the same file you produced with hisat2. To do this, read the featureCount help manual and find the rights flags run featureCounts (hint: read the `Required arguments` section).
+
+**Exercise 4.2.2**
+
+Find the gene with the highest number of counts. Can we say this gene is the one with higher expression levels on this sample?

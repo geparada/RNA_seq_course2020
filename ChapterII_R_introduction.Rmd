@@ -1,0 +1,92 @@
+
+
+## 3.2 Metadata analysis on R-studio
+
+
+The fastq.gz files that we have at `/FASTQ` correspond to RNA-seq data extracted from D. melanogaster brain samples. The data corresponding to a full study published last year on [Cell Reports](https://www.ncbi.nlm.nih.gov//pubmed/30355484) and the full study was published in [SRA archive](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP162335). 
+
+**Exercise 3.2.1**
+
+Check the [study runs](https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=SRP162335) and compare with the file names from `FASTQ/` folder. Which tissues the samples were extracted from? Select the Runs that correspond to the files that we have and download the `RunInfo Table` corresponding to these tables and save it as `SraRunTable.txt` on the course folder. 
+
+**Exercise 3.2.2**
+
+Open R-studio and open the `Day1.Rmd` file that is located at the course folder. This is an R-notebook file, that has all the code used to generate this document. But, now when you open this file you will be able to run `chunks` of code interactively inside R-studio. Run the following chunk by clicking at the green play button.
+
+```{r}
+
+library(data.table)
+
+metadata <- fread("./SraRunTable.txt") #Please be sure to place the file under ./Course_Materials/00_Reproducible_RNA-Seq_Processing/
+
+metadata
+```
+
+
+By running this code, we imported the metadata as a data.table object, which corresponds to a very convenient structure to manipulate data in R. For more information visit this [link](https://www.datacamp.com/community/tutorials/data-table-cheat-sheet). We can now easily manipulate the data! For example, we can filter the metadata rows, so we only see the ones corresponding to "central neurons"
+
+
+```{r}
+metadata[source_name=="central neurons" , ]
+```
+
+
+We can also get explore if we have a lowly sequenced sample filtering by the `MBases` values
+
+```{r}
+metadata[MBases < 100 , ]
+```
+
+
+Or get the average Mega bases across this sample
+
+```{r}
+
+metadata[  , mean(MBases) ]
+
+```
+
+
+To explore this visually, we can plot with ggplot2. This is one of the most popular packages to visualize data. A basic code to visualize the Mbases distribution can be run as:
+
+```{r}
+library(ggplot2)
+
+ggplot(data = metadata) +  # Frist layer - Data input
+  geom_bar(aes(x=Run, y=MBases), stat = "identity")   # second layer - type of plot and axis
+
+```
+
+
+We can rotate the text to make it more visible
+
+```{r}
+
+ggplot(data=metadata) +
+  geom_bar(aes(x=Run, y=MBases, ), stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45))  # Third layer -  visual configuration
+
+```
+
+
+inside `aes( )` are the variables and we can also define a variable as the colour:
+
+
+```{r}
+ggplot(data=metadata) +
+  geom_bar(aes(x=Run, y=MBases, colour=source_name), stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45))
+```
+
+But for this particular type of graph, filling the bar with one colour is more suitable
+
+```{r}
+ggplot(data=metadata) +
+  geom_bar(aes(x=Run, y=MBases, fill=source_name), stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45))
+```
+
+
+From this plot, we can clearly see that one of the samples that were taken from central neurons is much smaller than the rest. This factor needs to be considered at the time we analyze the samples, as this poorly sequenced sample might have lead to less accurate mRNA quantification and it might need to be removed for quantitative analyses. 
+
+
