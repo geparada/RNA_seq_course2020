@@ -1,5 +1,5 @@
 ---
-title: " Reproducible RNA-seq Proceessing - Day1 "
+title: " Chapter I - Introduction to Unix "
 output: html_notebook
 ---
 

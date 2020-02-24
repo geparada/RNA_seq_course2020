@@ -1,3 +1,7 @@
+---
+title: " Chapter II - Quality Control and metadata analysis "
+output: html_notebook
+---
 
 # 3. Quality control before alingment
 
@@ -84,7 +88,8 @@ metadata[source_name=="central neurons" , ]
 We can also get explore if we have a lowly sequenced sample filtering by the `MBases` values
 
 ```{r}
-metadata[MBases < 100 , ]
+
+metadata[Bases < 100000000 , ]
 ```
 
 
@@ -92,7 +97,7 @@ Or get the average Mega bases across this sample
 
 ```{r}
 
-metadata[  , mean(MBases) ]
+metadata[  , mean(Bases) ]
 
 ```
 
@@ -103,7 +108,7 @@ To explore this visually, we can plot with ggplot2. This is one of the most popu
 library(ggplot2)
 
 ggplot(data = metadata) +  # Frist layer - Data input
-  geom_bar(aes(x=Run, y=MBases), stat = "identity")   # second layer - type of plot and axis
+  geom_bar(aes(x=Run, y=Bases), stat = "identity")   # second layer - type of plot and axis
 
 ```
 
@@ -113,7 +118,7 @@ We can rotate the text to make it more visible
 ```{r}
 
 ggplot(data=metadata) +
-  geom_bar(aes(x=Run, y=MBases, ), stat = "identity") + 
+  geom_bar(aes(x=Run, y=Bases, ), stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45))  # Third layer -  visual configuration
 
 ```
@@ -124,7 +129,7 @@ inside `aes( )` are the variables and we can also define a variable as the colou
 
 ```{r}
 ggplot(data=metadata) +
-  geom_bar(aes(x=Run, y=MBases, colour=source_name), stat = "identity") + 
+  geom_bar(aes(x=Run, y=Bases, colour=source_name), stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45))
 ```
 
@@ -132,7 +137,7 @@ But for this particular type of graph, filling the bar with one colour is more s
 
 ```{r}
 ggplot(data=metadata) +
-  geom_bar(aes(x=Run, y=MBases, fill=source_name), stat = "identity") + 
+  geom_bar(aes(x=Run, y=Bases, fill=source_name), stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45))
 ```
 
