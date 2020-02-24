@@ -4,6 +4,28 @@ output: html_notebook
 ---
 
 
+# 0. Let's start!
+
+Today we will be working remotely though [ssh](https://en.wikipedia.org/wiki/Secure_Shell). This allows us to access to higher computing power that is allocated on servers that we are renting for you. In order to connect to the server is important you take note of the IP address you will be given and then you can open a terminal and run the following command:
+
+`ssh course@IP_address`
+
+Where instead of `IP_address` you should insert the address corresponding to your own working server. Once you connect to the remote server, we will use [screen](https://en.wikipedia.org/wiki/GNU_Screen) to create a session. This will allow us to smoothly resume our working session after any disconnection from the server. To create a new session use:
+
+`screen -S day1`
+
+Where `day1` corresponds to the name of the session, but it can be replaced by any name you prefer.  After any interruption on the ssh connection, you can check the created sessions using:
+
+`screen -ls`
+
+If you want to resume a session, just use:
+
+`screen -r day1`
+
+If your session is still attached, but you want to re-attach to your current terminal, you will need to first de-attach the session and the re-attach it:
+
+`screen -d day1`
+`screen -r day1`
 
 # 1. Basic Unix
 
@@ -41,13 +63,11 @@ During the day to day work as a bioinformatician, the terminal will be your best
 
 **Exercise 1.0.1**
 
-A) Use `ls` to list the files that are inside the course directory.
+A) Use `ls` to list the files that are inside the course directory (`RNA_seq_course2020`).
 B) From the commands listed on the table above, use the right command to enter the Genome folder and use `ls` again to list the files inside the folder.
 C) Find command to print the first lines of `dm6.fa`
 D) Use `less` to display the content of `dm6.fa`. What is the name of this format? What does each sequence represent? (hint: use `q` to exit)
-
-
-
+E) Count the number of lines inside `dm6.fa` to estimate the number of sequences present inside
 
 
 ## 1.2 Efficient use of the terminal 
@@ -92,12 +112,12 @@ For today's practice, we are going to work with a smaller genome. We already hav
 
 Genome assemblyies have different versions. During this exercise we will compare the newest assembly of Dm melagogaster's genome (`dm6`) with an older version (`dm3`)
 
-A.- Create a new directory named `Older` under the Genome directory (hint: look for the appropriate command on the table above)
-B.- Enter the newly created directory and use `wget` to download a file from the following URL:
+A) Create a new directory named `Older` under the Genome directory (hint: look for the appropriate command on the table above)
+B) Enter the newly created directory and use `wget` to download a file from the following URL:
 http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
 Check the manual pages of wget by inserting `man wget` and find an option to redirect the downloading to a file named `dm3.fa.gz`
-C.- The obtained file `dm3.fa.gz` is a compressed file, therefore it cannot be directly oppened using `less`.  To print the first lines of this file we can use a combination of two commands; `zcat` and `head`.  Use `zcat dm3.fa.gz | head` to print the fist 10 lines. Notice the pipe `|` which here is used to couple these two commands. Now pipe `zcat`with `wc -l` to count the total number of lines inside `dm3.fa.gz`.
-D.- To uncompress and compress `.gz` files we can use gzip. Explore the man pages of it (`man gzip`) and find the right option to uncompress the file. Then use `wc -l` to check if the number of lines is maintained. 
+C) The obtained file `dm3.fa.gz` is a compressed file, therefore it cannot be directly oppened using `less`.  To print the first lines of this file we can use a combination of two commands; `zcat` and `head`.  Use `zcat dm3.fa.gz | head` to print the fist 10 lines. Notice the pipe `|` which here is used to couple these two commands. Now pipe `zcat`with `wc -l` to count the total number of lines inside `dm3.fa.gz`.
+D) To uncompress and compress `.gz` files we can use gzip. Explore the man pages of it (`man gzip`) and find the right option to uncompress the file. Then use `wc -l` to check if the number of lines is maintained. 
 
 
 **Exercise 2.1.1**
@@ -160,18 +180,5 @@ Process `dm6.Ensembl.genes.gtf` to find the total number of genes
 # 3. Quality control before alingment
 
 
-## 3.1 FASTQC
 
-
-To perform a QC of the Fastq files we can use *FastQC*. We can access to a basic manual of this tool by typing on `fastqc --help` on terminal.
-
-
-
-**Exercise 3.1.1**
-
-Create a directory named `QC`. Read `fastqc` help manual to run it for `FASTQ/SRR7889585.fastq.gz` and store the results at the newly created folder (`QC`). To speed it up, use 7 threads (which it will allow our machines to use 7 processors). You will get an html file as output; Open it with an internet browser (Chrome, Firefox, etc) and answer the following questions:
-
-A) What is the read length?
-B) Does the quality score very through the read length?
-C) How is the data's quality?
 
