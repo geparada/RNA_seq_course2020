@@ -122,14 +122,9 @@ D) To uncompress and compress `.gz` files we can use gzip. Explore the man pages
 
 **Exercise 2.1.1**
 
-Count the number of sequences present at `dm6.fa` (hint: count lines that start with `>`, but as this is a special UNIX character, refer to it as `\>`. Which command can be used for pattern matching and count lines?). 
-
-If each sequence is related to a chromosome, why do we find so many sequences? How many main scaffolds can you see?
-
-**Exercise 2.1.2**
-
-Can you calculate the exact number of nucleotides that this D. melanogaster assembly is made of? (hint: explore additional options of `grep` and `wc`)
-
+A) Count the number of sequences present at `dm6.fa` (hint: count lines that start with `>`, but as this is a special UNIX character, refer to it as `\>`. Which command can be used for pattern matching and count lines?). 
+B) Can you calculate the exact number of nucleotides that each D. melanogaster assembly is made of? (hint: explore additional options of `grep` and `wc`)
+C) Compare your results with the official stats reported for [dm6](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.4/) and [dm3](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.2/).
 
 ## 2.2 FASTQ format
 
@@ -177,7 +172,7 @@ Process `dm6.Ensembl.genes.bed12` to find the five transcripts with the highest 
 Process `dm6.Ensembl.genes.gtf` to find the total number of genes
 
 
-# 3. Quality control before alingment
+
 
 
 
