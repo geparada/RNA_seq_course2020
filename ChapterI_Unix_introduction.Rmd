@@ -35,6 +35,8 @@ UNIX is an operating system that was developed in the 1960s and it has been the 
 |`wget` | download file |`wget -r file_url -O local_file` | 
 |`gzip` | compress / uncompress files |`wget -d file.gz` (uncompress a .gz file) | 
 
+
+
 During the day to day work as a bioinformatician, the terminal will be your best friend. In this section, we are going to review one of the most used terminal commands by doing some practical exercises. 
 
 **Exercise 1.0.1**
