@@ -4,9 +4,15 @@ Setup [miniconda](https://docs.conda.io/en/latest/miniconda.html) and then updat
 
     conda update -n base -c defaults conda
 
+Add channels
+
+    conda config --add channels defaults
+    conda config --add channels conda-forge
+    conda config --add channels bioconda
+
 Clone the course repository:
 
-    git clone https://github.com/bioinformatics-core-shared-training/RNAseq_March_2019/
+    git clone https://github.com/geparada/RNA_seq_course2020
 
 Create a conda enviroment with snakemake installed on it. We can call this virtual enviroment `snakemake_env`, but any other name would also work.
 
