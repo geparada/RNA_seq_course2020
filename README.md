@@ -24,7 +24,7 @@ Activate conda enviroment:
 
 # Download Data #
 
-    snakemake --use-conda download_all 
+    snakemake --resources get_data=1 --use-conda download_all
 
 # Run #
 
