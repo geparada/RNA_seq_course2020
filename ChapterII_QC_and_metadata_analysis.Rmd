@@ -85,7 +85,7 @@ B) Generate an unziped copy of `SRR7889585.fastq.gz` by using:
 
 `zcat SRR7889585.fastq.gz > SRR7889585.fastq`
 
-Then find the right command to trim low quality sequences that are bellow phed score of 10 and only keep the sequences that are remain longer than 50 bp. 
+Then find the right command to trim low quality sequences that are bellow phed score of 10 and only keep the sequences that are remain longer than 40 bp. 
 
 C) Compare the number of lines between trimmed and untrimmed SRR7889585 files. Perform a QC report of the new trimmed file, and compare it with the original. Do you notice any improvement? 
 
