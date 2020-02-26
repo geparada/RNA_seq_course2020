@@ -65,13 +65,14 @@ SRR7889585.fastq.gz` are not very low quality, but it worth to check if it can b
 
 To install FASTX-Toolkit we are going to use `anaconda` to search for the right package. Please activate the `base` enviroment and then install `anaconda`. Once you have done this type:
 
-`anaconda search -t conda FASTX`
+`anaconda search -t conda FASTX | less `
 
-To select the first option we can do:
+You will get a list will all the channels where FASTX is available. To select the first option we can do:
 
 `anaconda show BioBuilds/fastx-toolkit`
 
-And then we run the last conda command its displayed.
+Take a look to the last conda command that its displayed. Activate the QC enviroment again and run that command. 
+
 
 **Exercise 3.2.1**
 

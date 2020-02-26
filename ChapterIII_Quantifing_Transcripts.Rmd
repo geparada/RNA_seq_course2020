@@ -3,9 +3,15 @@
 
 After we have a diagnosis of the data quality, we can start to analyse the data. Usually, the first step into the analysis requires mapping the RNA-seq reads to the genome. There are numerous tools to do perform short read alignment and the choice of it should be carefully made according to the analysis goals and requirements. Hisat2 is a very fastq tool that has been shown to have a good performance on published benchmarks. 
 
+To install all the software we will be using during this Chapter, create a new enviroment called "quant" and install:
+  - hisat2
+  - samtools
+  - igv
+  - subread
+
+Then activate this newly created enviroment and start following this chapter. 
 
 ## 4.1 Indexing the genome for Hisat2
-
 
 To start mapping RNA-seq reads to the genome, we need to index the genome. The command to do this is `hisat2-build`. 
 
