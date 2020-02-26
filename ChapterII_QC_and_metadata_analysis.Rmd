@@ -3,6 +3,9 @@ title: " Chapter II - Quality Control and metadata analysis "
 output: html_notebook
 ---
 
+
+
+
 # 3. Quality control before alingment
 
 
@@ -15,6 +18,7 @@ We currently have conda installed on the machines. However, before start using i
 `conda config --add channels defaults`
 `conda config --add channels conda-forge`
 `conda config --add channels bioconda`
+
 
 Then to install `fastqc` execute the following command.
 
@@ -34,9 +38,11 @@ Then we can activate this new enviroment by:
 
 Now, check if `fastqc` was successfully installed. Does it work? To learn more about this, please take a quick read to this [blog post](https://john-quensen.com/tutorials/conda-and-virtual-environments/). 
 
+**Exercise 3.0.1**
+
+Open a new terminal, connect to the server and create a new screen session. Then, create a new environment called R, installing `rstudio` on it. To ensure that is the correct version, use `--channel r` which enable to use a conda channel that is specialized on R packages. This will take a while to resolve, but it corresponds to an environment that we will use on the last part of this chapter, so please keep an eye on it and introduce `y` when conda finish to gather all the dependencies. 
 
 ## 3.1 FASTQC
-
 
 
 **Exercise 3.1.1**
@@ -51,17 +57,24 @@ A) What is the read length?
 B) Does the quality score very through the read length?
 C) How is the data's quality?
 
-## 3.2 Trimming 
+## 3.2  Pre-processing
 
-Adaptors and low quality sequences can be trim to impr
+Given the quality of our experiment, we can make decisions about the following steps. If the data quality is not great, some pre-processing steps can be implemented to improve quality. Most of these steps can be conducted with [FASTX-Toolkit](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html). 
+The most common steps to pre-process FASTQ files are **adaptor removal** and **quality trimming**. Adaptors can be removed using `fastx_clipper`. In our case, our report does not show an evident adapter content and since we do not have the information about what adapters were used, we will skip this step. According to the report, the 3` ends of `
+SRR7889585.fastq.gz` are not very low quality, but it worth to check if it can be improved. 
 
-conda install fastx_toolkit
+To install FASTX-Toolkit we are going to use `anaconda` to search for the right package. Please activate the `base` enviroment and then install `anaconda`. Once you have done this type:
 
+`anaconda search -t conda FASTX`
 
+To select the first option we can do:
+
+`anaconda show BioBuilds/fastx-toolkit`
+
+And then we run the last conda command its displayed.
 
 **Exercise 3.2.1**
 
-In this case we do not have the information corresponding to the addapters used on this experiments. But we would like to remove low quality ends
 
 A) The check the manual of fastq_quality_trimmer by running:
 
@@ -87,7 +100,19 @@ Check the [study runs](https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=SRP16233
 
 **Exercise 3.3.2**
 
-Open R-studio and open the `ChapterII_QC_and_metadata_analysis.Rmd` file that is located at the course folder. This is an R-notebook file, that has all the code used to generate this document. But, now when you open this file you will be able to run `chunks` of code interactively inside R-studio. Run the following chunk by clicking at the green play button.
+
+Open a new terminal and connect to the server using `ssh`, but this time adding `-Y` to enable visualization of graphical interfaces. Then, activate the environment you created on Exercise 3.0.1 and enter the course folder. Run R-studio on the terminal by typing `rstudio`. An R-studio window should pop up. Install `ggplot2` and `data.table` packages by running the following line on the command line:
+
+install.packages("ggplot2", "data.table")
+
+This R-studio visualization is runnig in our server, so then we can open
+`ChapterII_QC_and_metadata_analysis.Rmd` and continue following this chapter on R-studio! 
+
+ that is located at the course folder. This is an R-notebook file, that has all the code used to generate this document. But, now when you open this file you will be able to run `chunks` of code interactively inside R-studio. Run the following chunk by clicking at the green play button.
+
+- - - - - Continue reading inside the R-sudio - - - - - -
+
+ This is an R-notebook file, that has all the code used to generate this document. But, now when you open this file you will be able to run `chunks` of code interactively inside R-studio. Run the following chunk by clicking at the green play button.
 
 ```{r}
 
