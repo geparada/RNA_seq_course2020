@@ -70,6 +70,14 @@ D) Use `less` to display the content of `dm6.fa`. What is the name of this forma
 E) Count the number of lines inside `dm6.fa` to estimate the number of sequences present inside
 
 
+**Exercise 1.0.2**
+
+A) Count the number of sequences present at `dm6.fa` (hint: count lines that start with `>`, but as this is a special UNIX character, refer to it as `\>`. Which command can be used for pattern matching and count lines?). 
+B) Can you calculate the exact number of nucleotides that each D. melanogaster assembly is made of? (hint: explore additional options of `grep` and `wc`)
+C) Compare your results with the official stats reported for [dm6](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.4/) and [dm3](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.2/).
+
+
+
 ## 1.2 Efficient use of the terminal 
 
 
@@ -120,11 +128,6 @@ C) The obtained file `dm3.fa.gz` is a compressed file, therefore it cannot be di
 D) To uncompress and compress `.gz` files we can use gzip. Explore the man pages of it (`man gzip`) and find the right option to uncompress the file. Then use `wc -l` to check if the number of lines is maintained. 
 
 
-**Exercise 2.1.2**
-
-A) Count the number of sequences present at `dm6.fa` (hint: count lines that start with `>`, but as this is a special UNIX character, refer to it as `\>`. Which command can be used for pattern matching and count lines?). 
-B) Can you calculate the exact number of nucleotides that each D. melanogaster assembly is made of? (hint: explore additional options of `grep` and `wc`)
-C) Compare your results with the official stats reported for [dm6](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.4/) and [dm3](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.2/).
 
 ## 2.2 FASTQ format
 
@@ -162,12 +165,12 @@ Get D. melanogaster gene annotation files for `dm6` assembly in from [UCSC Table
 And get the annotation files as BED and GTF (choosing the right output formats). Save the BED file as `dm6.Ensembl.genes.bed12` and GTF as `dm6.Ensembl.genes.gtf` at `Gene_annotation` folder.
 
 
+**Exercise 2.3.1**
+
+
+Process `dm6.Ensembl.genes.bed12` to find the five transcripts with the highest number of exons. (hint use `sort`, look for `-r`, `-n` and `-k` flags at its manual). 
+
 **Exercise 2.3.2**
-
-
-Process `dm6.Ensembl.genes.bed12` to find the five transcripts with the highest number of exons. (hint use `sort`, look for `-r` and `-k` flags at its manual). 
-
-**Exercise 2.3.3**
 
 Process `dm6.Ensembl.genes.gtf` to find the total number of genes
 

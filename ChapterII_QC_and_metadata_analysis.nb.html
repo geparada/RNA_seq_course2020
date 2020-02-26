@@ -228,11 +228,23 @@ summary {
 <!-- rnb-text-begin -->
 <div id="quality-control-before-alingment" class="section level1">
 <h1>3. Quality control before alingment</h1>
+<div id="getting-the-software" class="section level2">
+<h2>3.0 Getting the software</h2>
+<p>To perform a QC of the Fastq files we can use <em>FastQC</em>. In order to get this software we have several alternatives, and one option is to download it from <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">Babraham Bioinformatics</a>. However, this might be time-consuming when we want to install different software to conduct our analysis. Instead, we can install software from <a href="https://docs.conda.io/en/latest/">Conda</a>, which is multi-platform a package repository that will enable us to quickly get the software and automatically install all their dependencies.</p>
+<p>We currently have conda installed on the machines. However, before start using it we need to make sure that some conda channels are added into our configuration. Add these channels by typing:</p>
+<p><code>conda config --add channels defaults</code> <code>conda config --add channels conda-forge</code> <code>conda config --add channels bioconda</code></p>
+<p>Then to install <code>fastqc</code> execute the following command.</p>
+<p><code>conda install fastqc</code></p>
+<p>To test if <code>fastqc</code> we can check <code>fastqc</code> manual by running.</p>
+<p><code>fastqc --help</code></p>
+<p>However, since <code>fasqc</code> is not going to be the only software we are going to use for the QC, we will create a new environment where we will install the tools we will use on this Chapter. To create a new environment called <code>QC</code> and install <code>fastqc</code> on it, we can run:</p>
+<p><code>conda create -n QC fastqc</code></p>
+<p>Then we can activate this new enviroment by:</p>
+<p><code>conda activate QC</code></p>
+<p>Now, check if <code>fastqc</code> was successfully installed. Does it work? To learn more about this, please take a quick read to this <a href="https://john-quensen.com/tutorials/conda-and-virtual-environments/">blog post</a>.</p>
+</div>
 <div id="fastqc" class="section level2">
 <h2>3.1 FASTQC</h2>
-<p>To perform a QC of the Fastq files we can use <em>FastQC</em>. Use conda to install <code>FastQC</code>:</p>
-<p><code>conda install fastqc</code></p>
-<p>Then We can access to a basic manual of this tool by typing on <code>fastqc --help</code> on terminal.</p>
 <p><strong>Exercise 3.1.1</strong></p>
 <p>Create a directory named <code>QC</code>. Read <code>fastqc</code> help manual to run it for <code>FASTQ/SRR7889585.fastq.gz</code> and store the results at the newly created folder (<code>QC</code>). To speed it up, use 8 threads (which it will allow our machines to use 8 processors). You will get an html file as output; use <code>scp</code> to copy it to your local machine. On a new terminal insert:</p>
 <p><code>scp course@IP_machine:/path/to/SRR7889585_fastqc.html .</code></p>
@@ -271,84 +283,79 @@ summary {
 <p>Open R-studio and open the <code>ChapterII_QC_and_metadata_analysis.Rmd</code> file that is located at the course folder. This is an R-notebook file, that has all the code used to generate this document. But, now when you open this file you will be able to run <code>chunks</code> of code interactively inside R-studio. Run the following chunk by clicking at the green play button.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5saWJyYXJ5KGRhdGEudGFibGUpXG5cbm1ldGFkYXRhIDwtIGZyZWFkKFwiLi9TcmFSdW5UYWJsZS50eHRcIikgI1BsZWFzZSBiZSBzdXJlIHRvIHBsYWNlIHRoZSBmaWxlIHVuZGVyIH4vUk5BX3NlcV9jb3Vyc2UyMDIwXG5cbm1ldGFkYXRhXG5gYGAifQ== -->
-<pre class="r"><code>
-library(data.table)
-
-metadata &lt;- fread(&quot;./SraRunTable.txt&quot;) #Please be sure to place the file under ~/RNA_seq_course2020
-
-metadata</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5saWJyYXJ5KGRhdGEudGFibGUpXG5cbm1ldGFkYXRhIDwtIGZyZWFkKFxcLi9TcmFSdW5UYWJsZS50eHRcXCkgI1BsZWFzZSBiZSBzdXJlIHRvIHBsYWNlIHRoZSBmaWxlIHVuZGVyIH4vUk5BX3NlcV9jb3Vyc2UyMDIwXG5cbm1ldGFkYXRhXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+<p>library(data.table)</p>
+<p>metadata &lt;- fread(./SraRunTable.txt) #Please be sure to place the file under ~/RNA_seq_course2020</p>
+<p>metadata</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>By running this code, we imported the metadata as a data.table object, which corresponds to a very convenient structure to manipulate data in R. For more information visit this <a href="https://www.datacamp.com/community/tutorials/data-table-cheat-sheet">link</a>. We can now easily manipulate the data! For example, we can filter the metadata rows, so we only see the ones corresponding to “central neurons”</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWV0YWRhdGFbc291cmNlX25hbWU9PVwiY2VudHJhbCBuZXVyb25zXCIgLCBdXG5gYGAifQ== -->
-<pre class="r"><code>metadata[source_name==&quot;central neurons&quot; , ]</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubWV0YWRhdGFbc291cmNlX25hbWU9PVxcY2VudHJhbCBuZXVyb25zXFwgLCBdXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r metadata[source_name==neurons , ]</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>We can also get explore if we have a lowly sequenced sample filtering by the <code>MBases</code> values</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tZXRhZGF0YVtCYXNlcyA8IDEwMDAwMDAwMCAsIF1cbmBgYCJ9 -->
-<pre class="r"><code>
-metadata[Bases &lt; 100000000 , ]</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5tZXRhZGF0YVtCYXNlcyA8IDEwMDAwMDAwMCAsIF1cbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r</p>
+<p>metadata[Bases &lt; 100000000 , ]</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Or get the average Mega bases across this sample</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tZXRhZGF0YVsgICwgbWVhbihCYXNlcykgXVxuXG5gYGAifQ== -->
-<pre class="r"><code>
-metadata[  , mean(Bases) ]
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5tZXRhZGF0YVsgICwgbWVhbihCYXNlcykgXVxuXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+<p>metadata[ , mean(Bases) ]</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>To explore this visually, we can plot with ggplot2. This is one of the most popular packages to visualize data. A basic code to visualize the Mbases distribution can be run as:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxuXG5nZ3Bsb3QoZGF0YSA9IG1ldGFkYXRhKSArICAjIEZyaXN0IGxheWVyIC0gRGF0YSBpbnB1dFxuICBnZW9tX2JhcihhZXMoeD1SdW4sIHk9QmFzZXMpLCBzdGF0ID0gXCJpZGVudGl0eVwiKSAgICMgc2Vjb25kIGxheWVyIC0gdHlwZSBvZiBwbG90IGFuZCBheGlzXG5cbmBgYCJ9 -->
-<pre class="r"><code>library(ggplot2)
-
-ggplot(data = metadata) +  # Frist layer - Data input
-  geom_bar(aes(x=Run, y=Bases), stat = &quot;identity&quot;)   # second layer - type of plot and axis
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShnZ3Bsb3QyKVxuXG5nZ3Bsb3QoZGF0YSA9IG1ldGFkYXRhKSArICAjIEZyaXN0IGxheWVyIC0gRGF0YSBpbnB1dFxuICBnZW9tX2JhcihhZXMoeD1SdW4sIHk9QmFzZXMpLCBzdGF0ID0gXFxpZGVudGl0eVxcKSAgICMgc2Vjb25kIGxheWVyIC0gdHlwZSBvZiBwbG90IGFuZCBheGlzXG5cbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r library(ggplot2)</p>
+<p>ggplot(data = metadata) + # Frist layer - Data input geom_bar(aes(x=Run, y=Bases), stat = ) # second layer - type of plot and axis</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>We can rotate the text to make it more visible</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5nZ3Bsb3QoZGF0YT1tZXRhZGF0YSkgK1xuICBnZW9tX2JhcihhZXMoeD1SdW4sIHk9QmFzZXMsICksIHN0YXQgPSBcImlkZW50aXR5XCIpICsgXG4gIHRoZW1lKGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gNDUpKSAgIyBUaGlyZCBsYXllciAtICB2aXN1YWwgY29uZmlndXJhdGlvblxuXG5gYGAifQ== -->
-<pre class="r"><code>
-ggplot(data=metadata) +
-  geom_bar(aes(x=Run, y=Bases, ), stat = &quot;identity&quot;) + 
-  theme(axis.text.x = element_text(angle = 45))  # Third layer -  visual configuration
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5nZ3Bsb3QoZGF0YT1tZXRhZGF0YSkgK1xuICBnZW9tX2JhcihhZXMoeD1SdW4sIHk9QmFzZXMsICksIHN0YXQgPSBcXGlkZW50aXR5XFwpICsgXG4gIHRoZW1lKGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gNDUpKSAgIyBUaGlyZCBsYXllciAtICB2aXN1YWwgY29uZmlndXJhdGlvblxuXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+<p>ggplot(data=metadata) + geom_bar(aes(x=Run, y=Bases, ), stat = ) + theme(axis.text.x = element_text(angle = 45)) # Third layer - visual configuration</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>inside <code>aes( )</code> are the variables and we can also define a variable as the colour:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGE9bWV0YWRhdGEpICtcbiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCBjb2xvdXI9c291cmNlX25hbWUpLCBzdGF0ID0gXCJpZGVudGl0eVwiKSArIFxuICB0aGVtZShheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDQ1KSlcbmBgYCJ9 -->
-<pre class="r"><code>ggplot(data=metadata) +
-  geom_bar(aes(x=Run, y=Bases, colour=source_name), stat = &quot;identity&quot;) + 
-  theme(axis.text.x = element_text(angle = 45))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ2dwbG90KGRhdGE9bWV0YWRhdGEpICtcbiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCBjb2xvdXI9c291cmNlX25hbWUpLCBzdGF0ID0gXFxpZGVudGl0eVxcKSArIFxuICB0aGVtZShheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDQ1KSlcbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r ggplot(data=metadata) + geom_bar(aes(x=Run, y=Bases, colour=source_name), stat = ) + theme(axis.text.x = element_text(angle = 45))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>But for this particular type of graph, filling the bar with one colour is more suitable</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGE9bWV0YWRhdGEpICtcbiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCBmaWxsPXNvdXJjZV9uYW1lKSwgc3RhdCA9IFwiaWRlbnRpdHlcIikgKyBcbiAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSkpXG5gYGAifQ== -->
-<pre class="r"><code>ggplot(data=metadata) +
-  geom_bar(aes(x=Run, y=Bases, fill=source_name), stat = &quot;identity&quot;) + 
-  theme(axis.text.x = element_text(angle = 45))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ2dwbG90KGRhdGE9bWV0YWRhdGEpICtcbiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCBmaWxsPXNvdXJjZV9uYW1lKSwgc3RhdCA9IFxcaWRlbnRpdHlcXCkgKyBcbiAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSkpXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r ggplot(data=metadata) + geom_bar(aes(x=Run, y=Bases, fill=source_name), stat = ) + theme(axis.text.x = element_text(angle = 45))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -357,7 +364,7 @@ ggplot(data=metadata) +
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiIENoYXB0ZXIgSUkgLSBRdWFsaXR5IENvbnRyb2wgYW5kIG1ldGFkYXRhIGFuYWx5c2lzICIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyAzLiBRdWFsaXR5IGNvbnRyb2wgYmVmb3JlIGFsaW5nbWVudAoKIyMgMy4xIEZBU1RRQwoKClRvIHBlcmZvcm0gYSBRQyBvZiB0aGUgRmFzdHEgZmlsZXMgd2UgY2FuIHVzZSAqRmFzdFFDKi4gVXNlIGNvbmRhIHRvIGluc3RhbGwgYEZhc3RRQ2A6CgoKYGNvbmRhIGluc3RhbGwgZmFzdHFjYAoKClRoZW4gIFdlIGNhbiBhY2Nlc3MgdG8gYSBiYXNpYyBtYW51YWwgb2YgdGhpcyB0b29sIGJ5IHR5cGluZyBvbiBgZmFzdHFjIC0taGVscGAgb24gdGVybWluYWwuCgoKKipFeGVyY2lzZSAzLjEuMSoqCgpDcmVhdGUgYSBkaXJlY3RvcnkgbmFtZWQgYFFDYC4gUmVhZCBgZmFzdHFjYCBoZWxwIG1hbnVhbCB0byBydW4gaXQgZm9yIGBGQVNUUS9TUlI3ODg5NTg1LmZhc3RxLmd6YCBhbmQgc3RvcmUgdGhlIHJlc3VsdHMgYXQgdGhlIG5ld2x5IGNyZWF0ZWQgZm9sZGVyIChgUUNgKS4gVG8gc3BlZWQgaXQgdXAsIHVzZSA4IHRocmVhZHMgKHdoaWNoIGl0IHdpbGwgYWxsb3cgb3VyIG1hY2hpbmVzIHRvIHVzZSA4IHByb2Nlc3NvcnMpLiBZb3Ugd2lsbCBnZXQgYW4gaHRtbCBmaWxlIGFzIG91dHB1dDsgdXNlIGBzY3BgIHRvIGNvcHkgaXQgdG8geW91ciBsb2NhbCBtYWNoaW5lLiBPbiBhIG5ldyB0ZXJtaW5hbCBpbnNlcnQ6Cgpgc2NwIGNvdXJzZUBJUF9tYWNoaW5lOi9wYXRoL3RvL1NSUjc4ODk1ODVfZmFzdHFjLmh0bWwgLmAKCk5vdywgb3BlbiBpdCB3aXRoIGFuIGludGVybmV0IGJyb3dzZXIgKENocm9tZSwgRmlyZWZveCwgZXRjKSBhbmQgYW5zd2VyIHRoZSBmb2xsb3dpbmcgcXVlc3Rpb25zOgoKQSkgV2hhdCBpcyB0aGUgcmVhZCBsZW5ndGg/CkIpIERvZXMgdGhlIHF1YWxpdHkgc2NvcmUgdmVyeSB0aHJvdWdoIHRoZSByZWFkIGxlbmd0aD8KQykgSG93IGlzIHRoZSBkYXRhJ3MgcXVhbGl0eT8KCiMjIDMuMiBUcmltbWluZyAKCkFkYXB0b3JzIGFuZCBsb3cgcXVhbGl0eSBzZXF1ZW5jZXMgY2FuIGJlIHRyaW0gdG8gaW1wcgoKY29uZGEgaW5zdGFsbCBmYXN0eF90b29sa2l0CgoKCioqRXhlcmNpc2UgMy4yLjEqKgoKSW4gdGhpcyBjYXNlIHdlIGRvIG5vdCBoYXZlIHRoZSBpbmZvcm1hdGlvbiBjb3JyZXNwb25kaW5nIHRvIHRoZSBhZGRhcHRlcnMgdXNlZCBvbiB0aGlzIGV4cGVyaW1lbnRzLiBCdXQgd2Ugd291bGQgbGlrZSB0byByZW1vdmUgbG93IHF1YWxpdHkgZW5kcwoKQSkgVGhlIGNoZWNrIHRoZSBtYW51YWwgb2YgZmFzdHFfcXVhbGl0eV90cmltbWVyIGJ5IHJ1bm5pbmc6CgpgZmFzdHFfcXVhbGl0eV90cmltbWVyIC1oYAoKQikgR2VuZXJhdGUgYW4gdW56aXBlZCBjb3B5IG9mIGBTUlI3ODg5NTg1LmZhc3RxLmd6YCBieSB1c2luZzoKCmB6Y2F0IFNSUjc4ODk1ODUuZmFzdHEuZ3ogPiBTUlI3ODg5NTg1LmZhc3RxYAoKVGhlbiBmaW5kIHRoZSByaWdodCBjb21tYW5kIHRvIHRyaW0gbG93IHF1YWxpdHkgc2VxdWVuY2VzIHRoYXQgYXJlIGJlbGxvdyBwaGVkIHNjb3JlIG9mIDEwIGFuZCBvbmx5IGtlZXAgdGhlIHNlcXVlbmNlcyB0aGF0IGFyZSByZW1haW4gbG9uZ2VyIHRoYW4gNTAgYnAuIAoKQykgQ29tcGFyZSB0aGUgbnVtYmVyIG9mIGxpbmVzIGJldHdlZW4gdHJpbW1lZCBhbmQgdW50cmltbWVkIFNSUjc4ODk1ODUgZmlsZXMuIFBlcmZvcm0gYSBRQyByZXBvcnQgb2YgdGhlIG5ldyB0cmltbWVkIGZpbGUsIGFuZCBjb21wYXJlIGl0IHdpdGggdGhlIG9yaWdpbmFsLiBEbyB5b3Ugbm90aWNlIGFueSBpbXByb3ZlbWVudD8gCgoKIyMgMy4zIE1ldGFkYXRhIGFuYWx5c2lzIG9uIFItc3R1ZGlvCgoKVGhlIGZhc3RxLmd6IGZpbGVzIHRoYXQgd2UgaGF2ZSBhdCBgL0ZBU1RRYCBjb3JyZXNwb25kIHRvIFJOQS1zZXEgZGF0YSBleHRyYWN0ZWQgZnJvbSBELiBtZWxhbm9nYXN0ZXIgYnJhaW4gc2FtcGxlcy4gVGhlIGRhdGEgY29ycmVzcG9uZGluZyB0byBhIGZ1bGwgc3R1ZHkgcHVibGlzaGVkIGxhc3QgeWVhciBvbiBbQ2VsbCBSZXBvcnRzXShodHRwczovL3d3dy5uY2JpLm5sbS5uaWguZ292Ly9wdWJtZWQvMzAzNTU0ODQpIGFuZCB0aGUgZnVsbCBzdHVkeSB3YXMgcHVibGlzaGVkIGluIFtTUkEgYXJjaGl2ZV0oaHR0cHM6Ly90cmFjZS5uY2JpLm5sbS5uaWguZ292L1RyYWNlcy9zcmEvP3N0dWR5PVNSUDE2MjMzNSkuIAoKKipFeGVyY2lzZSAzLjMuMSoqCgpDaGVjayB0aGUgW3N0dWR5IHJ1bnNdKGh0dHBzOi8vdHJhY2UubmNiaS5ubG0ubmloLmdvdi9UcmFjZXMvc3R1ZHkvP2FjYz1TUlAxNjIzMzUpIGFuZCBjb21wYXJlIHdpdGggdGhlIGZpbGUgbmFtZXMgZnJvbSBgRkFTVFEvYCBmb2xkZXIuIFdoaWNoIHRpc3N1ZXMgdGhlIHNhbXBsZXMgd2VyZSBleHRyYWN0ZWQgZnJvbT8gU2VsZWN0IHRoZSBSdW5zIHRoYXQgY29ycmVzcG9uZCB0byB0aGUgZmlsZXMgdGhhdCB3ZSBoYXZlIGFuZCBkb3dubG9hZCB0aGUgYFJ1bkluZm8gVGFibGVgIGNvcnJlc3BvbmRpbmcgdG8gdGhlc2UgdGFibGVzIGFuZCBzYXZlIGl0IGFzIGBTcmFSdW5UYWJsZS50eHRgIG9uIHRoZSBjb3Vyc2UgZm9sZGVyLiAKCioqRXhlcmNpc2UgMy4zLjIqKgoKT3BlbiBSLXN0dWRpbyBhbmQgb3BlbiB0aGUgYENoYXB0ZXJJSV9RQ19hbmRfbWV0YWRhdGFfYW5hbHlzaXMuUm1kYCBmaWxlIHRoYXQgaXMgbG9jYXRlZCBhdCB0aGUgY291cnNlIGZvbGRlci4gVGhpcyBpcyBhbiBSLW5vdGVib29rIGZpbGUsIHRoYXQgaGFzIGFsbCB0aGUgY29kZSB1c2VkIHRvIGdlbmVyYXRlIHRoaXMgZG9jdW1lbnQuIEJ1dCwgbm93IHdoZW4geW91IG9wZW4gdGhpcyBmaWxlIHlvdSB3aWxsIGJlIGFibGUgdG8gcnVuIGBjaHVua3NgIG9mIGNvZGUgaW50ZXJhY3RpdmVseSBpbnNpZGUgUi1zdHVkaW8uIFJ1biB0aGUgZm9sbG93aW5nIGNodW5rIGJ5IGNsaWNraW5nIGF0IHRoZSBncmVlbiBwbGF5IGJ1dHRvbi4KCmBgYHtyfQoKbGlicmFyeShkYXRhLnRhYmxlKQoKbWV0YWRhdGEgPC0gZnJlYWQoIi4vU3JhUnVuVGFibGUudHh0IikgI1BsZWFzZSBiZSBzdXJlIHRvIHBsYWNlIHRoZSBmaWxlIHVuZGVyIH4vUk5BX3NlcV9jb3Vyc2UyMDIwCgptZXRhZGF0YQpgYGAKCgpCeSBydW5uaW5nIHRoaXMgY29kZSwgd2UgaW1wb3J0ZWQgdGhlIG1ldGFkYXRhIGFzIGEgZGF0YS50YWJsZSBvYmplY3QsIHdoaWNoIGNvcnJlc3BvbmRzIHRvIGEgdmVyeSBjb252ZW5pZW50IHN0cnVjdHVyZSB0byBtYW5pcHVsYXRlIGRhdGEgaW4gUi4gRm9yIG1vcmUgaW5mb3JtYXRpb24gdmlzaXQgdGhpcyBbbGlua10oaHR0cHM6Ly93d3cuZGF0YWNhbXAuY29tL2NvbW11bml0eS90dXRvcmlhbHMvZGF0YS10YWJsZS1jaGVhdC1zaGVldCkuIFdlIGNhbiBub3cgZWFzaWx5IG1hbmlwdWxhdGUgdGhlIGRhdGEhIEZvciBleGFtcGxlLCB3ZSBjYW4gZmlsdGVyIHRoZSBtZXRhZGF0YSByb3dzLCBzbyB3ZSBvbmx5IHNlZSB0aGUgb25lcyBjb3JyZXNwb25kaW5nIHRvICJjZW50cmFsIG5ldXJvbnMiCgoKYGBge3J9Cm1ldGFkYXRhW3NvdXJjZV9uYW1lPT0iY2VudHJhbCBuZXVyb25zIiAsIF0KYGBgCgoKV2UgY2FuIGFsc28gZ2V0IGV4cGxvcmUgaWYgd2UgaGF2ZSBhIGxvd2x5IHNlcXVlbmNlZCBzYW1wbGUgZmlsdGVyaW5nIGJ5IHRoZSBgTUJhc2VzYCB2YWx1ZXMKCmBgYHtyfQoKbWV0YWRhdGFbQmFzZXMgPCAxMDAwMDAwMDAgLCBdCmBgYAoKCk9yIGdldCB0aGUgYXZlcmFnZSBNZWdhIGJhc2VzIGFjcm9zcyB0aGlzIHNhbXBsZQoKYGBge3J9CgptZXRhZGF0YVsgICwgbWVhbihCYXNlcykgXQoKYGBgCgoKVG8gZXhwbG9yZSB0aGlzIHZpc3VhbGx5LCB3ZSBjYW4gcGxvdCB3aXRoIGdncGxvdDIuIFRoaXMgaXMgb25lIG9mIHRoZSBtb3N0IHBvcHVsYXIgcGFja2FnZXMgdG8gdmlzdWFsaXplIGRhdGEuIEEgYmFzaWMgY29kZSB0byB2aXN1YWxpemUgdGhlIE1iYXNlcyBkaXN0cmlidXRpb24gY2FuIGJlIHJ1biBhczoKCmBgYHtyfQpsaWJyYXJ5KGdncGxvdDIpCgpnZ3Bsb3QoZGF0YSA9IG1ldGFkYXRhKSArICAjIEZyaXN0IGxheWVyIC0gRGF0YSBpbnB1dAogIGdlb21fYmFyKGFlcyh4PVJ1biwgeT1CYXNlcyksIHN0YXQgPSAiaWRlbnRpdHkiKSAgICMgc2Vjb25kIGxheWVyIC0gdHlwZSBvZiBwbG90IGFuZCBheGlzCgpgYGAKCgpXZSBjYW4gcm90YXRlIHRoZSB0ZXh0IHRvIG1ha2UgaXQgbW9yZSB2aXNpYmxlCgpgYGB7cn0KCmdncGxvdChkYXRhPW1ldGFkYXRhKSArCiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCApLCBzdGF0ID0gImlkZW50aXR5IikgKyAKICB0aGVtZShheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDQ1KSkgICMgVGhpcmQgbGF5ZXIgLSAgdmlzdWFsIGNvbmZpZ3VyYXRpb24KCmBgYAoKCmluc2lkZSBgYWVzKCApYCBhcmUgdGhlIHZhcmlhYmxlcyBhbmQgd2UgY2FuIGFsc28gZGVmaW5lIGEgdmFyaWFibGUgYXMgdGhlIGNvbG91cjoKCgpgYGB7cn0KZ2dwbG90KGRhdGE9bWV0YWRhdGEpICsKICBnZW9tX2JhcihhZXMoeD1SdW4sIHk9QmFzZXMsIGNvbG91cj1zb3VyY2VfbmFtZSksIHN0YXQgPSAiaWRlbnRpdHkiKSArIAogIHRoZW1lKGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gNDUpKQpgYGAKCkJ1dCBmb3IgdGhpcyBwYXJ0aWN1bGFyIHR5cGUgb2YgZ3JhcGgsIGZpbGxpbmcgdGhlIGJhciB3aXRoIG9uZSBjb2xvdXIgaXMgbW9yZSBzdWl0YWJsZQoKYGBge3J9CmdncGxvdChkYXRhPW1ldGFkYXRhKSArCiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCBmaWxsPXNvdXJjZV9uYW1lKSwgc3RhdCA9ICJpZGVudGl0eSIpICsgCiAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSkpCmBgYAoKCkZyb20gdGhpcyBwbG90LCB3ZSBjYW4gY2xlYXJseSBzZWUgdGhhdCBvbmUgb2YgdGhlIHNhbXBsZXMgdGhhdCB3ZXJlIHRha2VuIGZyb20gY2VudHJhbCBuZXVyb25zIGlzIG11Y2ggc21hbGxlciB0aGFuIHRoZSByZXN0LiBUaGlzIGZhY3RvciBuZWVkcyB0byBiZSBjb25zaWRlcmVkIGF0IHRoZSB0aW1lIHdlIGFuYWx5emUgdGhlIHNhbXBsZXMsIGFzIHRoaXMgcG9vcmx5IHNlcXVlbmNlZCBzYW1wbGUgbWlnaHQgaGF2ZSBsZWFkIHRvIGxlc3MgYWNjdXJhdGUgbVJOQSBxdWFudGlmaWNhdGlvbiBhbmQgaXQgbWlnaHQgbmVlZCB0byBiZSByZW1vdmVkIGZvciBxdWFudGl0YXRpdmUgYW5hbHlzZXMuIAoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiIENoYXB0ZXIgSUkgLSBRdWFsaXR5IENvbnRyb2wgYW5kIG1ldGFkYXRhIGFuYWx5c2lzICIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyAzLiBRdWFsaXR5IGNvbnRyb2wgYmVmb3JlIGFsaW5nbWVudAoKCiMjIDMuMCBHZXR0aW5nIHRoZSBzb2Z0d2FyZQoKVG8gcGVyZm9ybSBhIFFDIG9mIHRoZSBGYXN0cSBmaWxlcyB3ZSBjYW4gdXNlICpGYXN0UUMqLiBJbiBvcmRlciB0byBnZXQgdGhpcyBzb2Z0d2FyZSB3ZSBoYXZlIHNldmVyYWwgYWx0ZXJuYXRpdmVzLCBhbmQgb25lIG9wdGlvbiBpcyB0byBkb3dubG9hZCBpdCBmcm9tIFtCYWJyYWhhbSBCaW9pbmZvcm1hdGljc10oaHR0cHM6Ly93d3cuYmlvaW5mb3JtYXRpY3MuYmFicmFoYW0uYWMudWsvcHJvamVjdHMvZmFzdHFjLykuIEhvd2V2ZXIsIHRoaXMgbWlnaHQgYmUgdGltZS1jb25zdW1pbmcgd2hlbiB3ZSB3YW50IHRvIGluc3RhbGwgZGlmZmVyZW50IHNvZnR3YXJlIHRvIGNvbmR1Y3Qgb3VyIGFuYWx5c2lzLiBJbnN0ZWFkLCB3ZSBjYW4gaW5zdGFsbCBzb2Z0d2FyZSBmcm9tIFtDb25kYV0oaHR0cHM6Ly9kb2NzLmNvbmRhLmlvL2VuL2xhdGVzdC8pLCB3aGljaCBpcyBtdWx0aS1wbGF0Zm9ybSBhIHBhY2thZ2UgcmVwb3NpdG9yeSB0aGF0IHdpbGwgZW5hYmxlIHVzIHRvIHF1aWNrbHkgZ2V0IHRoZSBzb2Z0d2FyZSBhbmQgYXV0b21hdGljYWxseSBpbnN0YWxsIGFsbCB0aGVpciBkZXBlbmRlbmNpZXMuIAoKV2UgY3VycmVudGx5IGhhdmUgY29uZGEgaW5zdGFsbGVkIG9uIHRoZSBtYWNoaW5lcy4gSG93ZXZlciwgYmVmb3JlIHN0YXJ0IHVzaW5nIGl0IHdlIG5lZWQgdG8gbWFrZSBzdXJlIHRoYXQgc29tZSBjb25kYSBjaGFubmVscyBhcmUgYWRkZWQgaW50byBvdXIgY29uZmlndXJhdGlvbi4gQWRkIHRoZXNlIGNoYW5uZWxzIGJ5IHR5cGluZzoKCmBjb25kYSBjb25maWcgLS1hZGQgY2hhbm5lbHMgZGVmYXVsdHNgCmBjb25kYSBjb25maWcgLS1hZGQgY2hhbm5lbHMgY29uZGEtZm9yZ2VgCmBjb25kYSBjb25maWcgLS1hZGQgY2hhbm5lbHMgYmlvY29uZGFgCgpUaGVuIHRvIGluc3RhbGwgYGZhc3RxY2AgZXhlY3V0ZSB0aGUgZm9sbG93aW5nIGNvbW1hbmQuCgpgY29uZGEgaW5zdGFsbCBmYXN0cWNgCgpUbyB0ZXN0IGlmIGBmYXN0cWNgIHdlIGNhbiBjaGVjayBgZmFzdHFjYCBtYW51YWwgYnkgcnVubmluZy4KCmBmYXN0cWMgLS1oZWxwYAoKSG93ZXZlciwgc2luY2UgYGZhc3FjYCBpcyBub3QgZ29pbmcgdG8gYmUgdGhlIG9ubHkgc29mdHdhcmUgd2UgYXJlIGdvaW5nIHRvIHVzZSBmb3IgdGhlIFFDLCB3ZSB3aWxsIGNyZWF0ZSBhIG5ldyBlbnZpcm9ubWVudCB3aGVyZSB3ZSB3aWxsIGluc3RhbGwgdGhlIHRvb2xzIHdlIHdpbGwgdXNlIG9uIHRoaXMgQ2hhcHRlci4gVG8gY3JlYXRlIGEgbmV3IGVudmlyb25tZW50IGNhbGxlZCBgUUNgIGFuZCBpbnN0YWxsIGBmYXN0cWNgIG9uIGl0LCB3ZSBjYW4gcnVuOgoKYGNvbmRhIGNyZWF0ZSAtbiBRQyBmYXN0cWNgCgpUaGVuIHdlIGNhbiBhY3RpdmF0ZSB0aGlzIG5ldyBlbnZpcm9tZW50IGJ5OgoKYGNvbmRhIGFjdGl2YXRlIFFDYAoKTm93LCBjaGVjayBpZiBgZmFzdHFjYCB3YXMgc3VjY2Vzc2Z1bGx5IGluc3RhbGxlZC4gRG9lcyBpdCB3b3JrPyBUbyBsZWFybiBtb3JlIGFib3V0IHRoaXMsIHBsZWFzZSB0YWtlIGEgcXVpY2sgcmVhZCB0byB0aGlzIFtibG9nIHBvc3RdKGh0dHBzOi8vam9obi1xdWVuc2VuLmNvbS90dXRvcmlhbHMvY29uZGEtYW5kLXZpcnR1YWwtZW52aXJvbm1lbnRzLykuIAoKCiMjIDMuMSBGQVNUUUMKCgoKKipFeGVyY2lzZSAzLjEuMSoqCgpDcmVhdGUgYSBkaXJlY3RvcnkgbmFtZWQgYFFDYC4gUmVhZCBgZmFzdHFjYCBoZWxwIG1hbnVhbCB0byBydW4gaXQgZm9yIGBGQVNUUS9TUlI3ODg5NTg1LmZhc3RxLmd6YCBhbmQgc3RvcmUgdGhlIHJlc3VsdHMgYXQgdGhlIG5ld2x5IGNyZWF0ZWQgZm9sZGVyIChgUUNgKS4gVG8gc3BlZWQgaXQgdXAsIHVzZSA4IHRocmVhZHMgKHdoaWNoIGl0IHdpbGwgYWxsb3cgb3VyIG1hY2hpbmVzIHRvIHVzZSA4IHByb2Nlc3NvcnMpLiBZb3Ugd2lsbCBnZXQgYW4gaHRtbCBmaWxlIGFzIG91dHB1dDsgdXNlIGBzY3BgIHRvIGNvcHkgaXQgdG8geW91ciBsb2NhbCBtYWNoaW5lLiBPbiBhIG5ldyB0ZXJtaW5hbCBpbnNlcnQ6Cgpgc2NwIGNvdXJzZUBJUF9tYWNoaW5lOi9wYXRoL3RvL1NSUjc4ODk1ODVfZmFzdHFjLmh0bWwgLmAKCk5vdywgb3BlbiBpdCB3aXRoIGFuIGludGVybmV0IGJyb3dzZXIgKENocm9tZSwgRmlyZWZveCwgZXRjKSBhbmQgYW5zd2VyIHRoZSBmb2xsb3dpbmcgcXVlc3Rpb25zOgoKQSkgV2hhdCBpcyB0aGUgcmVhZCBsZW5ndGg/CkIpIERvZXMgdGhlIHF1YWxpdHkgc2NvcmUgdmVyeSB0aHJvdWdoIHRoZSByZWFkIGxlbmd0aD8KQykgSG93IGlzIHRoZSBkYXRhJ3MgcXVhbGl0eT8KCiMjIDMuMiBUcmltbWluZyAKCkFkYXB0b3JzIGFuZCBsb3cgcXVhbGl0eSBzZXF1ZW5jZXMgY2FuIGJlIHRyaW0gdG8gaW1wcgoKY29uZGEgaW5zdGFsbCBmYXN0eF90b29sa2l0CgoKCioqRXhlcmNpc2UgMy4yLjEqKgoKSW4gdGhpcyBjYXNlIHdlIGRvIG5vdCBoYXZlIHRoZSBpbmZvcm1hdGlvbiBjb3JyZXNwb25kaW5nIHRvIHRoZSBhZGRhcHRlcnMgdXNlZCBvbiB0aGlzIGV4cGVyaW1lbnRzLiBCdXQgd2Ugd291bGQgbGlrZSB0byByZW1vdmUgbG93IHF1YWxpdHkgZW5kcwoKQSkgVGhlIGNoZWNrIHRoZSBtYW51YWwgb2YgZmFzdHFfcXVhbGl0eV90cmltbWVyIGJ5IHJ1bm5pbmc6CgpgZmFzdHFfcXVhbGl0eV90cmltbWVyIC1oYAoKQikgR2VuZXJhdGUgYW4gdW56aXBlZCBjb3B5IG9mIGBTUlI3ODg5NTg1LmZhc3RxLmd6YCBieSB1c2luZzoKCmB6Y2F0IFNSUjc4ODk1ODUuZmFzdHEuZ3ogPiBTUlI3ODg5NTg1LmZhc3RxYAoKVGhlbiBmaW5kIHRoZSByaWdodCBjb21tYW5kIHRvIHRyaW0gbG93IHF1YWxpdHkgc2VxdWVuY2VzIHRoYXQgYXJlIGJlbGxvdyBwaGVkIHNjb3JlIG9mIDEwIGFuZCBvbmx5IGtlZXAgdGhlIHNlcXVlbmNlcyB0aGF0IGFyZSByZW1haW4gbG9uZ2VyIHRoYW4gNTAgYnAuIAoKQykgQ29tcGFyZSB0aGUgbnVtYmVyIG9mIGxpbmVzIGJldHdlZW4gdHJpbW1lZCBhbmQgdW50cmltbWVkIFNSUjc4ODk1ODUgZmlsZXMuIFBlcmZvcm0gYSBRQyByZXBvcnQgb2YgdGhlIG5ldyB0cmltbWVkIGZpbGUsIGFuZCBjb21wYXJlIGl0IHdpdGggdGhlIG9yaWdpbmFsLiBEbyB5b3Ugbm90aWNlIGFueSBpbXByb3ZlbWVudD8gCgoKIyMgMy4zIE1ldGFkYXRhIGFuYWx5c2lzIG9uIFItc3R1ZGlvCgoKVGhlIGZhc3RxLmd6IGZpbGVzIHRoYXQgd2UgaGF2ZSBhdCBgL0ZBU1RRYCBjb3JyZXNwb25kIHRvIFJOQS1zZXEgZGF0YSBleHRyYWN0ZWQgZnJvbSBELiBtZWxhbm9nYXN0ZXIgYnJhaW4gc2FtcGxlcy4gVGhlIGRhdGEgY29ycmVzcG9uZGluZyB0byBhIGZ1bGwgc3R1ZHkgcHVibGlzaGVkIGxhc3QgeWVhciBvbiBbQ2VsbCBSZXBvcnRzXShodHRwczovL3d3dy5uY2JpLm5sbS5uaWguZ292Ly9wdWJtZWQvMzAzNTU0ODQpIGFuZCB0aGUgZnVsbCBzdHVkeSB3YXMgcHVibGlzaGVkIGluIFtTUkEgYXJjaGl2ZV0oaHR0cHM6Ly90cmFjZS5uY2JpLm5sbS5uaWguZ292L1RyYWNlcy9zcmEvP3N0dWR5PVNSUDE2MjMzNSkuIAoKKipFeGVyY2lzZSAzLjMuMSoqCgpDaGVjayB0aGUgW3N0dWR5IHJ1bnNdKGh0dHBzOi8vdHJhY2UubmNiaS5ubG0ubmloLmdvdi9UcmFjZXMvc3R1ZHkvP2FjYz1TUlAxNjIzMzUpIGFuZCBjb21wYXJlIHdpdGggdGhlIGZpbGUgbmFtZXMgZnJvbSBgRkFTVFEvYCBmb2xkZXIuIFdoaWNoIHRpc3N1ZXMgdGhlIHNhbXBsZXMgd2VyZSBleHRyYWN0ZWQgZnJvbT8gU2VsZWN0IHRoZSBSdW5zIHRoYXQgY29ycmVzcG9uZCB0byB0aGUgZmlsZXMgdGhhdCB3ZSBoYXZlIGFuZCBkb3dubG9hZCB0aGUgYFJ1bkluZm8gVGFibGVgIGNvcnJlc3BvbmRpbmcgdG8gdGhlc2UgdGFibGVzIGFuZCBzYXZlIGl0IGFzIGBTcmFSdW5UYWJsZS50eHRgIG9uIHRoZSBjb3Vyc2UgZm9sZGVyLiAKCioqRXhlcmNpc2UgMy4zLjIqKgoKT3BlbiBSLXN0dWRpbyBhbmQgb3BlbiB0aGUgYENoYXB0ZXJJSV9RQ19hbmRfbWV0YWRhdGFfYW5hbHlzaXMuUm1kYCBmaWxlIHRoYXQgaXMgbG9jYXRlZCBhdCB0aGUgY291cnNlIGZvbGRlci4gVGhpcyBpcyBhbiBSLW5vdGVib29rIGZpbGUsIHRoYXQgaGFzIGFsbCB0aGUgY29kZSB1c2VkIHRvIGdlbmVyYXRlIHRoaXMgZG9jdW1lbnQuIEJ1dCwgbm93IHdoZW4geW91IG9wZW4gdGhpcyBmaWxlIHlvdSB3aWxsIGJlIGFibGUgdG8gcnVuIGBjaHVua3NgIG9mIGNvZGUgaW50ZXJhY3RpdmVseSBpbnNpZGUgUi1zdHVkaW8uIFJ1biB0aGUgZm9sbG93aW5nIGNodW5rIGJ5IGNsaWNraW5nIGF0IHRoZSBncmVlbiBwbGF5IGJ1dHRvbi4KCmBgYHtyfQoKbGlicmFyeShkYXRhLnRhYmxlKQoKbWV0YWRhdGEgPC0gZnJlYWQoIi4vU3JhUnVuVGFibGUudHh0IikgI1BsZWFzZSBiZSBzdXJlIHRvIHBsYWNlIHRoZSBmaWxlIHVuZGVyIH4vUk5BX3NlcV9jb3Vyc2UyMDIwCgptZXRhZGF0YQpgYGAKCgpCeSBydW5uaW5nIHRoaXMgY29kZSwgd2UgaW1wb3J0ZWQgdGhlIG1ldGFkYXRhIGFzIGEgZGF0YS50YWJsZSBvYmplY3QsIHdoaWNoIGNvcnJlc3BvbmRzIHRvIGEgdmVyeSBjb252ZW5pZW50IHN0cnVjdHVyZSB0byBtYW5pcHVsYXRlIGRhdGEgaW4gUi4gRm9yIG1vcmUgaW5mb3JtYXRpb24gdmlzaXQgdGhpcyBbbGlua10oaHR0cHM6Ly93d3cuZGF0YWNhbXAuY29tL2NvbW11bml0eS90dXRvcmlhbHMvZGF0YS10YWJsZS1jaGVhdC1zaGVldCkuIFdlIGNhbiBub3cgZWFzaWx5IG1hbmlwdWxhdGUgdGhlIGRhdGEhIEZvciBleGFtcGxlLCB3ZSBjYW4gZmlsdGVyIHRoZSBtZXRhZGF0YSByb3dzLCBzbyB3ZSBvbmx5IHNlZSB0aGUgb25lcyBjb3JyZXNwb25kaW5nIHRvICJjZW50cmFsIG5ldXJvbnMiCgoKYGBge3J9Cm1ldGFkYXRhW3NvdXJjZV9uYW1lPT0iY2VudHJhbCBuZXVyb25zIiAsIF0KYGBgCgoKV2UgY2FuIGFsc28gZ2V0IGV4cGxvcmUgaWYgd2UgaGF2ZSBhIGxvd2x5IHNlcXVlbmNlZCBzYW1wbGUgZmlsdGVyaW5nIGJ5IHRoZSBgTUJhc2VzYCB2YWx1ZXMKCmBgYHtyfQoKbWV0YWRhdGFbQmFzZXMgPCAxMDAwMDAwMDAgLCBdCmBgYAoKCk9yIGdldCB0aGUgYXZlcmFnZSBNZWdhIGJhc2VzIGFjcm9zcyB0aGlzIHNhbXBsZQoKYGBge3J9CgptZXRhZGF0YVsgICwgbWVhbihCYXNlcykgXQoKYGBgCgoKVG8gZXhwbG9yZSB0aGlzIHZpc3VhbGx5LCB3ZSBjYW4gcGxvdCB3aXRoIGdncGxvdDIuIFRoaXMgaXMgb25lIG9mIHRoZSBtb3N0IHBvcHVsYXIgcGFja2FnZXMgdG8gdmlzdWFsaXplIGRhdGEuIEEgYmFzaWMgY29kZSB0byB2aXN1YWxpemUgdGhlIE1iYXNlcyBkaXN0cmlidXRpb24gY2FuIGJlIHJ1biBhczoKCmBgYHtyfQpsaWJyYXJ5KGdncGxvdDIpCgpnZ3Bsb3QoZGF0YSA9IG1ldGFkYXRhKSArICAjIEZyaXN0IGxheWVyIC0gRGF0YSBpbnB1dAogIGdlb21fYmFyKGFlcyh4PVJ1biwgeT1CYXNlcyksIHN0YXQgPSAiaWRlbnRpdHkiKSAgICMgc2Vjb25kIGxheWVyIC0gdHlwZSBvZiBwbG90IGFuZCBheGlzCgpgYGAKCgpXZSBjYW4gcm90YXRlIHRoZSB0ZXh0IHRvIG1ha2UgaXQgbW9yZSB2aXNpYmxlCgpgYGB7cn0KCmdncGxvdChkYXRhPW1ldGFkYXRhKSArCiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCApLCBzdGF0ID0gImlkZW50aXR5IikgKyAKICB0aGVtZShheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDQ1KSkgICMgVGhpcmQgbGF5ZXIgLSAgdmlzdWFsIGNvbmZpZ3VyYXRpb24KCmBgYAoKCmluc2lkZSBgYWVzKCApYCBhcmUgdGhlIHZhcmlhYmxlcyBhbmQgd2UgY2FuIGFsc28gZGVmaW5lIGEgdmFyaWFibGUgYXMgdGhlIGNvbG91cjoKCgpgYGB7cn0KZ2dwbG90KGRhdGE9bWV0YWRhdGEpICsKICBnZW9tX2JhcihhZXMoeD1SdW4sIHk9QmFzZXMsIGNvbG91cj1zb3VyY2VfbmFtZSksIHN0YXQgPSAiaWRlbnRpdHkiKSArIAogIHRoZW1lKGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gNDUpKQpgYGAKCkJ1dCBmb3IgdGhpcyBwYXJ0aWN1bGFyIHR5cGUgb2YgZ3JhcGgsIGZpbGxpbmcgdGhlIGJhciB3aXRoIG9uZSBjb2xvdXIgaXMgbW9yZSBzdWl0YWJsZQoKYGBge3J9CmdncGxvdChkYXRhPW1ldGFkYXRhKSArCiAgZ2VvbV9iYXIoYWVzKHg9UnVuLCB5PUJhc2VzLCBmaWxsPXNvdXJjZV9uYW1lKSwgc3RhdCA9ICJpZGVudGl0eSIpICsgCiAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSkpCmBgYAoKCkZyb20gdGhpcyBwbG90LCB3ZSBjYW4gY2xlYXJseSBzZWUgdGhhdCBvbmUgb2YgdGhlIHNhbXBsZXMgdGhhdCB3ZXJlIHRha2VuIGZyb20gY2VudHJhbCBuZXVyb25zIGlzIG11Y2ggc21hbGxlciB0aGFuIHRoZSByZXN0LiBUaGlzIGZhY3RvciBuZWVkcyB0byBiZSBjb25zaWRlcmVkIGF0IHRoZSB0aW1lIHdlIGFuYWx5emUgdGhlIHNhbXBsZXMsIGFzIHRoaXMgcG9vcmx5IHNlcXVlbmNlZCBzYW1wbGUgbWlnaHQgaGF2ZSBsZWFkIHRvIGxlc3MgYWNjdXJhdGUgbVJOQSBxdWFudGlmaWNhdGlvbiBhbmQgaXQgbWlnaHQgbmVlZCB0byBiZSByZW1vdmVkIGZvciBxdWFudGl0YXRpdmUgYW5hbHlzZXMuIAoKCg==</div>
 
 
 

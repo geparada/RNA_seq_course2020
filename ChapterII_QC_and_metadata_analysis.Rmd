@@ -6,16 +6,37 @@ output: html_notebook
 # 3. Quality control before alingment
 
 
-## 3.1 FASTQC
+## 3.0 Getting the software
 
+To perform a QC of the Fastq files we can use *FastQC*. In order to get this software we have several alternatives, and one option is to download it from [Babraham Bioinformatics](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). However, this might be time-consuming when we want to install different software to conduct our analysis. Instead, we can install software from [Conda](https://docs.conda.io/en/latest/), which is multi-platform a package repository that will enable us to quickly get the software and automatically install all their dependencies. 
 
-To perform a QC of the Fastq files we can use *FastQC*. Use conda to install `FastQC`:
+We currently have conda installed on the machines. However, before start using it we need to make sure that some conda channels are added into our configuration. Add these channels by typing:
 
+`conda config --add channels defaults`
+`conda config --add channels conda-forge`
+`conda config --add channels bioconda`
+
+Then to install `fastqc` execute the following command.
 
 `conda install fastqc`
 
+To test if `fastqc` we can check `fastqc` manual by running.
 
-Then  We can access to a basic manual of this tool by typing on `fastqc --help` on terminal.
+`fastqc --help`
+
+However, since `fasqc` is not going to be the only software we are going to use for the QC, we will create a new environment where we will install the tools we will use on this Chapter. To create a new environment called `QC` and install `fastqc` on it, we can run:
+
+`conda create -n QC fastqc`
+
+Then we can activate this new enviroment by:
+
+`conda activate QC`
+
+Now, check if `fastqc` was successfully installed. Does it work? To learn more about this, please take a quick read to this [blog post](https://john-quensen.com/tutorials/conda-and-virtual-environments/). 
+
+
+## 3.1 FASTQC
+
 
 
 **Exercise 3.1.1**
