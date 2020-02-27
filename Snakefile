@@ -86,7 +86,7 @@ include: "rules/Pseudoalignment.skm"
      
 rule run_salmon:
     input:
-        expand( 'salmon/{sample}/quant.sf', sample=SAMPLE)    
+        expand( 'salmon/{sample}/quant.sf', sample=SAMPLES)    
     
 include: "rules/01_stringtie.skm"    
 include: "rules/02_bridge.skm"  
