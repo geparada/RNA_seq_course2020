@@ -18,4 +18,4 @@ Install Whippet:
 
 Exit interactive julia session (`control + d`) and find Whippet's binary folder, that should be inside of your miniconda environment folder. Once you find the path to this folder, add it to `config.yaml` writing the following line:
 
-`whippet_bin_folder : path/to/miniconda/envs/julia/share/julia/site/v0.6/Whippet/bin/whippet-quant.jl`
+`whippet_bin_folder : /home/user2/miniconda3/envs/julia_0.6.1/share/julia/site/v0.6/Whippet/bin/
