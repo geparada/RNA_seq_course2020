@@ -25,7 +25,7 @@ rule salmon_index:
         
 rule salmon_quant_reads:
     input:
-        r = "FASTQ/{sample}.fastq.gz"
+        r = "FASTQ/{sample}.fastq.gz",
         index = "salmon/transcriptome_index"
     output:
         quant = 'salmon/{sample}/quant.sf',
