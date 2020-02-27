@@ -1,0 +1,43 @@
+rule get_transcriptome:
+    input:
+        genome = "Genome/dm6.fa",
+        transcripts = "Gene_annotation/dm6.Ensembl.genes.bed12"
+    output:
+        "Transcriptome/dm6.transcripts.fa"
+    conda: "../envs/core.yaml"
+    shell:
+        "bedtools getfasta -fi {input.genome} -bed {input.transcripts} -name -s > {output}"
+
+
+rule salmon_index:
+    input:
+        "Transcriptome/dm6.transcripts.fa"
+    output:
+        directory("salmon/transcriptome_index")
+    log:
+        "logs/salmon/transcriptome_index.log"
+    threads: 2
+    params:
+        # optional parameters
+        extra=""
+    wrapper:
+        "0.49.0/bio/salmon/index"
+        
+rule salmon_quant_reads:
+    input:
+        r = "FASTQ/{sample}.fastq.gz",
+        index = "salmon/transcriptome_index"
+    output:
+        quant = 'salmon/{sample}/quant.sf',
+        lib = 'salmon/{sample}/lib_format_counts.json'
+    log:
+        'logs/salmon/{sample}.log'
+    params:
+        # optional parameters
+        #libtype ="A",
+        #zip_ext = bz2 # req'd for bz2 files ('bz2'); optional for gz files('gz')
+        extra=""
+    threads: 2
+    wrapper:
+        "0.49.0/bio/salmon/quant"
+
