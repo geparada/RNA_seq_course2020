@@ -40,3 +40,4 @@ rule salmon_quant_reads:
     threads: 2
     wrapper:
         "0.49.0/bio/salmon/quant"
+
