@@ -1,0 +1,37 @@
+---
+title: "Chapter V - Quantification by pseudomapping "
+output: html_notebook
+---
+
+
+# 6. Salmon: don't align ... quantify! 
+
+During this section, we are going to perform a novel quantification technique implemented by [salmon](https://combine-lab.github.io/salmon/about/). Unlike standard RNA-seq quantification methods that are based on regular alignments, salmon provides a one-step quantification method that is based on the generation of pseudoalignments. The main advantage of Salmon is its incredible speed, but also its accuracy to estimate gene expression. If you are interested to know more, please read from their paper published in [Nature Methods](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5600148/).
+
+Salmon can be easily incorporated in a Snakemake pipeline because it can be found as a [the Snakemake Wrappers repository](https://snakemake-wrappers.readthedocs.io/en/stable/), which correspond to a community-based repository of Snakemake rules that have already been written and tested. Each wrapper is associated with a stable conda environment, which enables a great level of reproducibility. 
+
+
+# 6.1 Exploring the code
+
+
+Open the `Snakefile` and scroll down to see the bottom of the file. Notice that it has some `include` statements. These statements allow us to introduce modules of code, which can be added as separate files. All these code modules correspond to `.skm` files that are found inside of `rules` folder. Take a look at `rules\Pseudoalignment.skm`.
+
+
+**Exercise 6.1.1**
+
+A) How many processing steps are needed to run Salmon's module?
+B) Take a closer look at the first rule and use your google skills to find out what this rule does!
+C) Where are the reads being mapped?
+D) How many output files do we expect from this pipeline?
+
+
+**Exercise 6.1.2**
+
+Open the Snakefile and look for a rule called "run_salmon". This corresponds to a rule that we can use as a target to run salmon. 
+
+A) Perform a `dry-run` of the workflow using run_salmon as a target
+B) Generate a --dag of the salmon protocol and visualise it on your local computer
+C) Run salmon pipeline using 6 cores
+D) Explore the results
+
+
