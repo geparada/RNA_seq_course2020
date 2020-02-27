@@ -140,11 +140,11 @@ B) Execute the same command than before, but using `--rulegraph` instead of `--d
 
 **Exercise 5.1.2**
 
-A) Execute `snakemake` to quantify all the samples with featureCounts and using 6 cores (hint: using a similar call than the fist command of section 5.1 - read the `snakemake --help`). 
-B) Look inside `Snakefile`code to see where the final output of featureCount will be stored and compare it with the output we previously had using featureCounts.  
+A) Execute `snakemake` to quantify all the samples with featureCounts using 6 cores and including the `--use-conda` flag to activate the automatic creation of virtual enviroments (hint: using a similar call than the fist command of section 5.1 - read the `snakemake --help`).
+B) Inspect `core.yaml` file inside `env` folder. Do you recognise this software? Investigate in google how to create a conda environment from a `yaml` file and use your newly acquired knowledge to create a testing snakemake environment that has installed all the software described at  `core.yaml`.
+C) Look inside `Snakefile`code to see where the final output of featureCount will be stored and compare it with the output we previously had using featureCounts. What is the main difference ? Why ?
 
 
-**Exercise 5.1.2**
 
 Snakemake can have individual files as a target. The following rule:
 
@@ -167,4 +167,6 @@ Was not included as part of our workflow, as it was not required to run featureC
 
 `snakemake --use-conda QC/SAMPLE/SAMPLE.plots.html`
 
-Where SAMPLE can be any of the accession codes from `NCBI_accession_list.txt`. Can you run this rule? What useful information can be found on the output html file>
+**Exercise 5.1.3**
+
+Where SAMPLE can be any of the accession codes from `NCBI_accession_list.txt`. Can you run this rule for the largest and smallest sample? (hint: use `ls -lh` to check file size) What useful information can be found on the output html file? Are there any evident difference between the results for the largest and smaller sample? 
