@@ -81,7 +81,8 @@ rule featureCounts:
 # that all these snakemake scripts work under python, thus any python syntax can be used.
 # 
 ###############################################    
-    
+ 
+include: "rules/Pseudoalignment.skm"    
     
 include: "rules/01_stringtie.skm"    
 include: "rules/02_bridge.skm"  
