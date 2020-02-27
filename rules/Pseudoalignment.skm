@@ -6,7 +6,7 @@ rule get_transcriptome:
         "Transcriptome/dm6.transcripts.fa"
     conda: "../envs/core.yaml"
     shell:
-        "bedtools getfasta -fi {input.genome} -bed {input.transcripts} -name"
+        "bedtools getfasta -fi {input.genome} -bed {input.transcripts} -name -s > {output}"
 
 
 rule salmon_index:
