@@ -7,3 +7,4 @@ dependencies:
   - samtools=1.9=h8ee4bcc_1
   - subread
   - gnuplot
+  - bedtools=2.29.2
