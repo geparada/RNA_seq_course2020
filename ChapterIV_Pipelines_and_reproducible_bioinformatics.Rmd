@@ -1,3 +1,7 @@
+---
+title: "ChapterIV Pipelines and reproducible bioinformatics"
+output: html_notebook
+---
 
 
 # 5. Introduction to reporducible bioinformatics
@@ -108,7 +112,11 @@ We have only qualified one sample so far, but now executing the Snakefie, we can
 
 `snakemake -np featureCounts`
 
-This command shows us all the steps that snakemake will until executing a rule named *featureCounts* (see Snakefile's code) which run `featureCounts` over all the samples. Where `-n` prevent snakemake from running the pipeline and `-p` prints the commands for each step.  
+This command shows us all the steps that snakemake will until executing a rule named *featureCounts* (see Snakefile's code) which run `featureCounts` over all the samples. Where `-n` prevent snakemake from running the pipeline and `-p` prints the commands for each step.
+
+**Warning**: Check if on job plan you find downloading processes. On this case, to avoid re-downloading data please update the time-stamp of the files located at `FASTQ`, `Genome` and `Gene_annotation` by running the following command.
+
+`touch FASTQ/*.fastq.gz Genome/dm6.fa Gene_annotation/dm6.Ensembl.genes.*`
 
 To visualise these steps run:
 
@@ -118,13 +126,22 @@ This will produce the following image:
 
 ![](Images/featureCounts.png)
 
+
+
+
 Which help us to understand the planned job execution.
 
 Finally, to run these steps we need to enable snakemake to use the environment files are needed for each rule by including `--use-conda` and also we should limit the number of processors to 7 with `--cores 7`.
 
 **Exercise 5.1.1**
 
-Execute `snakemake` to quantify all the samples using featureCounts. Look inside `Snakefile`code to see where the final output of featureCount will be stored and compare it with the output we previously had using featureCounts.  
+A) Generate your own directed acyclic graph (DAG) and compare it with this manual. Are they identical? (hint: use scp transfer the image to your local computer so you can visualize it)
+B) Execute the same command than before, but using `--rulegraph` instead of `--dag` and saving the image on a different file. What is the difference? Which one is more convenient to when you are working with a large number of samples?
+
+**Exercise 5.1.2**
+
+A) Execute `snakemake` to quantify all the samples with featureCounts and using 6 cores (hint: using a similar call than the fist command of section 5.1 - read the `snakemake --help`). 
+B) Look inside `Snakefile`code to see where the final output of featureCount will be stored and compare it with the output we previously had using featureCounts.  
 
 
 **Exercise 5.1.2**

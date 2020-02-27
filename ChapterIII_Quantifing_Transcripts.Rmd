@@ -20,7 +20,7 @@ To start mapping RNA-seq reads to the genome, we need to index the genome. The c
 **Exercise 4.1.1.**
 
 
-Go to `Course_Materials/00_Reproducible_RNA-Seq_Processing` directory using `cd` (This is going to be our base directory to solve all the following exercises). Do `ls` to list the directories and create a new folder called `Index` inside `Genome` folder. Then run the following command: 
+Run the following command: 
 
 `hisat2-build -p 7 Genome/dm6.fa Genome/Index/dm6`
 
@@ -40,7 +40,7 @@ To map the reads to the genome we need to run hisat2. Take a quick look to hisat
 **Exercise 4.2.1**
 
 Run hisat2 for the smallest file, located at FASTQ folder using 7 proccesors. Save the results inside a folder named `hisat2` (create it before using `mkdir`) and save the results using the right extension (`.sam`).
-hint: use `hisat --help` and look for -p -U -x flags and tt the end of the command use `>` to save the resuls to a file. 
+hint: use `hisat2 --help` and look for -p -U -x flags and the end of the command use `>` to save the resuls to a file. 
 
 
 ## 4.3 Samtools

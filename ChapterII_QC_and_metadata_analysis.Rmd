@@ -121,7 +121,7 @@ library(data.table)
 
 metadata <- fread("./SraRunTable.txt") #Please be sure to place the file under ~/RNA_seq_course2020
 
-metadata
+metadata[ source_name=="central neurons"  , sum(AvgSpotLen) ]
 ```
 
 
@@ -145,7 +145,7 @@ Or get the average Mega bases across this sample
 
 ```{r}
 
-metadata[  , mean(Bases) ]
+metadata[  , mean(Bases), by=source_name ]
 
 ```
 
@@ -155,7 +155,7 @@ To explore this visually, we can plot with ggplot2. This is one of the most popu
 ```{r}
 library(ggplot2)
 
-ggplot(data = metadata) +  # Frist layer - Data input
+ggplot( metadata) +  # Frist layer - Data input
   geom_bar(aes(x=Run, y=Bases), stat = "identity")   # second layer - type of plot and axis
 
 ```
@@ -191,5 +191,9 @@ ggplot(data=metadata) +
 
 
 From this plot, we can clearly see that one of the samples that were taken from central neurons is much smaller than the rest. This factor needs to be considered at the time we analyze the samples, as this poorly sequenced sample might have lead to less accurate mRNA quantification and it might need to be removed for quantitative analyses. 
+
+```{r}
+metadata
+```
 
 
