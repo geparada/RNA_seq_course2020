@@ -1,0 +1,37 @@
+---
+title: "Chapter VII - Snakemake-Workflows"
+output: html_notebook
+---
+
+# 7. Snakemake-Workflows: A pipeline repository 
+
+On this chapter, we are going try one of the pipelines that have been deposited on [Snakemake-Workflows](https://github.com/snakemake-workflows). Since we have tried other RNA-seq quantification methods such as hisat2/featureCounts and Salmon, today we are going to try a version of the `rna-seq-star-deseq2` pipeline, which have been forked and modified to guarantee its functioning during this tutorial.
+
+
+**Exercise 7.1**
+
+A) Fork the following repository:
+
+```{r}
+https://github.com/geparada/rna-seq-star-deseq2
+```
+B) Use github to clone your fork at the server we have been working with.
+
+**Exercise 7.2**
+
+To run this pipeline we need to modify the following files:
+samples.tsv
+units.tsv
+config.yaml
+
+A) Check inside `.test` folder to see an example of how these files can be seted to run this pipeline
+B) Our study we have two `conditions`; `neuron` and `glia`. Use `nano` to edit `samples.tsv` providing a unique ID to each sample (for example you can name neuronal samples from N1 to N5 and glial samples as G1 to G4) and the appropiate condition name.
+C) Use `nano` to edit `units.tsv` and complete the information corresponding to each sample, keeping the same ID naming you used for `samples.tvs`. Since on this study we do not have technical replicates, asing a value of `rep1` as `unit` for all samples. On `fq1` fill the corresponding the relative path to find each sample from the  `rna-seq-star-deseq2` folder (for example `../../RNA_seq_course2020/FASTQ/SRR7889581.fastq.gz`). Since the RNA-seq experiment we are currently analysing is single-end, leave the `fq2` column empty
+D) Create a conda enviroment containing [star](https://academic.oup.com/bioinformatics/article/29/1/15/272537) version 2.5.3a. Activate this enviroment and find on this [post](http://homer.ucsd.edu/homer/basicTutorial/mapping.html) the instructions how to create an STAR index.
+E) Edit `config.yaml` to configure the pipeline. Set skip as `true` for trimming (as we do not have the addaptor information). Provide the path to the STAR index folder you just generated. Provide the path to the reference gtf we were using before. Replace the names `treated` and `untreated` by `neuron` and `glia`.
+F) Make a dry run and then (if it works) run it FOR REAL! The full run will can take more than 30 min to run, so you may want to have a cooffe break at this point.
+H) Follow the pipeline [instructions](https://github.com/snakemake-workflows/rna-seq-star-deseq2) to make a report (Step 4).
+
+**Exercise 7.3**
+ 
+Explore the results in your local machine by downloading `qc/multiqc_report.html`, `report.html`, `counts/all.tsv` and `results/diffexp/neuron-vs-glia.diffexp.tsv`

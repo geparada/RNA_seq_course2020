@@ -1,0 +1,174 @@
+---
+title: "Chapter VIII - Differentiall gene expression analysis"
+output: html_notebook
+---
+
+
+# 8. Differential gene expression analysis with DEseq
+
+
+For training porpuses, we are going to reproduce the DESeq2 results we obtained using the `rna-seq-star-deseq2` pipeline. But first, lets install Deseq2:
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("DESeq2")
+```
+
+Then import DESeq2 
+
+```{r}
+library("DESeq2")
+
+```
+
+
+
+
+```{r}
+#star_counts <-  fread("Resuts/rna-seq-star-deseq2/all.tsv")
+star_counts <- read.table("Resuts/rna-seq-star-deseq2/all.tsv", header=TRUE, row.names=1)
+
+condition <- factor(c(rep("glia", 4), rep("neuron", 5)))
+coldata <- data.frame(row.names=colnames(star_counts), condition)
+
+dds <- DESeqDataSetFromMatrix(countData=star_counts, colData=coldata, design=~condition)
+
+# Run the DESeq pipeline
+dds <- DESeq(dds)
+
+# Get differential expression results
+res <- results(dds)
+
+#table(res$padj<0.05)
+## Order by adjusted p-value
+res <- res[order(res$padj), ]
+
+#rld <- rlogTransformation(dds)
+
+
+```
+
+```{r}
+ref_result <- fread("Resuts/rna-seq-star-deseq2/neuron-vs-glia.diffexp.tsv")
+
+ref_result[abs(log2FoldChange)>1 & padj < 0.05, ]
+
+
+```
+
+
+```{r}
+res.table[ abs(log2FoldChange)>1 & padj < 0.05  ,  ]
+```
+
+
+
+```{r}
+
+library(data.table)
+library(ggplot2)
+
+res.table <- data.frame(res)
+res.table$Gene <- rownames(res.table)
+res.table <- data.table(res.table)
+
+
+res.table.sig <- res.table[ abs(log2FoldChange)>1 & padj < 0.05  ,  ]
+
+ggplot(res.table) +
+  geom_point(aes(log2FoldChange, -log(padj) ) ) +
+  geom_point(data = res.table.sig,  aes(log2FoldChange, -log(padj) ), color="red" ) +
+  theme_bw()
+
+
+```
+
+
+
+```{r}
+library("ggrepel")
+
+library(biomaRt)
+
+
+ensembl = useEnsembl(biomart="ensembl", dataset="dmelanogaster_gene_ensembl")
+
+
+
+top.genes <- res.table.sig[order(-abs(log2FoldChange))][ 1:10, ]$Gene
+
+
+top.genes.info <- getBM(mart = ensembl, 
+                         filters = "ensembl_gene_id", 
+                         values = top.genes, 
+                         attributes = c("ensembl_gene_id", 
+                                         "external_gene_name") )
+
+
+
+
+top.genes.info <-  merge (res.table, top.genes.info, by.x = "Gene", by.y = "ensembl_gene_id")
+
+
+
+ggplot(res.table) +
+  geom_point(aes(log2FoldChange, -log(padj) ) ) +
+  geom_point(data = res.table.sig,  aes(log2FoldChange, -log(padj) ), color="red" ) +
+  geom_text_repel(data = top.genes.info, aes(log2FoldChange, -log(padj)), label=top.genes.info$external_gene_name, nudge_y = 10 ) +
+  theme_bw()
+```
+
+
+```{r}
+
+ggplot(res.table) +
+  geom_point( aes(log10(baseMean), log2FoldChange ) )  +
+  geom_point( data= res.table.sig , aes(log10(baseMean), log2FoldChange ), colour = "red" ) +
+  theme_bw()
+  
+
+
+```
+
+
+
+```{r}
+star_counts
+
+
+PCA <- prcomp(t(as.matrix(star_counts)), cor=TRUE, scores=TRUE)
+
+
+PCA.table <- data.frame(PCA$x)
+PCA.table$Sample <- row.names(PCA.table)
+
+ggplot(PCA.table) +
+  geom_text(aes(PC1, PC2, label=Sample) )
+
+```
+
+
+```{r}
+
+star_counts.log <- rlog(dds, blind=FALSE)
+
+plotPCA(star_counts.log) + 
+  geom_text(aes(label=name),vjust=2)
+
+
+star_counts
+
+log2(as.matrix(star_counts))
+
+PCA <- prcomp(t(log2(as.matrix(star_counts))), cor=TRUE, scores=TRUE)
+
+
+PCA.table <- data.frame(PCA$x)
+PCA.table$Sample <- row.names(PCA.table)
+
+ggplot(PCA.table) +
+  geom_text(aes(PC1, PC2, label=Sample) )
+
+```
