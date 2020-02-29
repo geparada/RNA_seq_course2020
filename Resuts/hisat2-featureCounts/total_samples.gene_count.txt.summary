@@ -1,0 +1,15 @@
+Status	hisat2/SRR7889599.sorted.bam	hisat2/SRR7889585.sorted.bam	hisat2/SRR7889582.sorted.bam	hisat2/SRR7889583.sorted.bam	hisat2/SRR7889584.sorted.bam	hisat2/SRR7889598.sorted.bam	hisat2/SRR7889600.sorted.bam	hisat2/SRR7889581.sorted.bam	hisat2/SRR7889597.sorted.bam
+Assigned	3849378	5659002	706100	4735806	3236521	5742442	574738	8768415	4402047
+Unassigned_Unmapped	1638878	4019330	491853	2446387	2362532	2641578	379934	5544960	2873278
+Unassigned_Read_Type	0	0	0	0	0	0	0	0	0
+Unassigned_Singleton	0	0	0	0	0	0	0	0	0
+Unassigned_MappingQuality	0	0	0	0	0	0	0	0	0
+Unassigned_Chimera	0	0	0	0	0	0	0	0	0
+Unassigned_FragmentLength	0	0	0	0	0	0	0	0	0
+Unassigned_Duplicate	0	0	0	0	0	0	0	0	0
+Unassigned_MultiMapping	2848904	6263435	783245	4629190	3494358	4193181	402876	9291406	3825632
+Unassigned_Secondary	0	0	0	0	0	0	0	0	0
+Unassigned_NonSplit	0	0	0	0	0	0	0	0	0
+Unassigned_NoFeatures	853360	1220276	107142	644363	674382	1317756	137247	1626835	871946
+Unassigned_Overlapping_Length	0	0	0	0	0	0	0	0	0
+Unassigned_Ambiguity	200147	232180	29350	190110	135583	332821	30011	381090	230416

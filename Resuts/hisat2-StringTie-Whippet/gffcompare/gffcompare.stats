@@ -1,0 +1,30 @@
+# gffcompare v0.11.2 | Command line was:
+#gffcompare StringTie/merged.assemble.gtf -r Gene_annotation/dm6.ensGene.gtf -s Genome/dm6.fa -o gffcompare/gffcompare
+#
+
+#= Summary for dataset: StringTie/merged.assemble.gtf 
+#     Query mRNAs :   19971 in   13987 loci  (14029 multi-exon transcripts)
+#            (2630 multi-transcript loci, ~1.4 transcripts per locus)
+# Reference mRNAs :   31458 in   16978 loci  (26005 multi-exon)
+# Super-loci w/ reference transcripts:     9190
+#-----------------| Sensitivity | Precision  |
+        Base level:    62.2     |    74.3    |
+        Exon level:    46.8     |    73.1    |
+      Intron level:    53.3     |    89.9    |
+Intron chain level:    27.1     |    50.2    |
+  Transcript level:    27.4     |    43.2    |
+       Locus level:    41.7     |    50.5    |
+
+     Matching intron chains:    7042
+       Matching transcripts:    8626
+              Matching loci:    7086
+
+          Missed exons:   29677/81185	( 36.6%)
+           Novel exons:    5128/53182	(  9.6%)
+        Missed introns:   21448/60282	( 35.6%)
+         Novel introns:    1231/35763	(  3.4%)
+           Missed loci:    7286/16978	( 42.9%)
+            Novel loci:    3566/13987	( 25.5%)
+
+ Total union super-loci across all input datasets: 12756 
+19971 out of 19971 consensus transcripts written in gffcompare/gffcompare.annotated.gtf (0 discarded as redundant)
